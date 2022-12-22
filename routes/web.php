@@ -20,3 +20,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('login', 'AuthController@login');
 });
+
+$router->group(['middleware' => 'auth', 'prefix' => 'auth'], function () use ($router) {
+    $router->get('profile', 'Auth\IndexController@profile');
+});
