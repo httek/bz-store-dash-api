@@ -24,3 +24,10 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 $router->group(['middleware' => 'auth', 'prefix' => 'auth'], function () use ($router) {
     $router->get('profile', 'Auth\IndexController@profile');
 });
+
+$router->group(['middleware' => 'auth'], function () use ($router) {
+    // Category
+    $router->group(['prefix' => 'system/categories'], function () use ($router) {
+        $router->get('', 'System\CategoryController@index');
+    });
+});

@@ -22,8 +22,8 @@ class CreateAdminsTable extends Migration
             $table->char('name', 60)->nullable();
             $table->string('avatar', 400)->nullable();
             $table->json('settings')->nullable();
-            $table->boolean('status')->default(true);
-            $table->boolean('type')->default(1)->comment('0 super, 1 admin');
+            $table->unsignedTinyInteger('status')->default(1);
+            $table->unsignedTinyInteger('type')->default(1)->comment('0 super, 1 admin');
             $table->timestamps();
             $table->foreign('role_id')->references('id')->on('roles');
         });

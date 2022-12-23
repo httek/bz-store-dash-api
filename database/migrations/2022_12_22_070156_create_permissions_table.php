@@ -16,12 +16,12 @@ class CreatePermissionsTable extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parent')->nullable();
-            $table->boolean('type')->default(true)->comment('0 directory 1 menu 2 button');
+            $table->unsignedTinyInteger('type')->default(1)->comment('0 directory 1 menu 2 button');
             $table->char('name', 80)->nullable();
             $table->string('icon', 400)->nullable();
             $table->string('path', 400)->nullable();
             $table->char('title', 80)->nullable();
-            $table->boolean('status')->default(true);
+            $table->unsignedTinyInteger('status')->default(1);
             $table->char('component', 160)->nullable();
             $table->json('meta')->nullable();
             $table->timestamps();

@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function (Request $request) {
             $token = $request->bearerToken();
-            if (! $token && $this->app->environment(['debug', 'testing', 'development'])) {
+            if (! $token && $this->app->environment(['local', 'development'])) {
                 $token = $request->input('jwt');
             }
 

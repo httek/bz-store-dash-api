@@ -86,6 +86,11 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Anik\Form\FormRequestServiceProvider::class);
 $app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
 
+$app->bind(
+    Illuminate\Pagination\LengthAwarePaginator::class,
+    App\Extend\Paginator::class
+);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

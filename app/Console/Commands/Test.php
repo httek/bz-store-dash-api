@@ -22,7 +22,7 @@ class Test extends Command
      */
     public function handle()
     {
-        $admin = new Admin(['id' => 1]);
+        $admin = Admin::find(1);
         dd(TokenService::issue($admin));
     }
 }

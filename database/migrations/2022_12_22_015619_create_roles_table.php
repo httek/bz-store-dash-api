@@ -18,7 +18,7 @@ class CreateRolesTable extends Migration
             $table->unsignedBigInteger('parent')->nullable();
             $table->char('name', 60)->unique();
             $table->string('title', 200)->nullable();
-            $table->boolean('status')->default(true);
+            $table->unsignedTinyInteger('status')->default(1);
             $table->foreign('parent')->references('id')->on('roles');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
