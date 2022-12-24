@@ -26,8 +26,17 @@ $router->group(['middleware' => 'auth', 'prefix' => 'auth'], function () use ($r
 });
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->group(['prefix' => 'utils', 'namespace' => 'Utils'], function () use ($router) {
+        $router->post('upload', 'UploadController@upload');
+    });
+
     // Category
-    $router->group(['prefix' => 'system/categories'], function () use ($router) {
-        $router->get('', 'System\CategoryController@index');
+    $router->group(['prefix' => 'system', 'namespace' => 'System'], function () use ($router) {
+        $router->get('categories', 'CategoryController@index');
+        $router->get('categories/{id:[\d]+}', 'CategoryController@show');
+        $router->get('categories/select', 'CategoryController@select');
+        $router->post('categories', 'CategoryController@store');
+        $router->post('categories/{id:[\d]+}', 'CategoryController@update');
+        $router->delete('categories/{id:[\d]+}', 'CategoryController@destroy');
     });
 });

@@ -2,12 +2,14 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Handlers\NotFound;
 use App\Exceptions\Handlers\Validation;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,7 +27,8 @@ class Handler extends ExceptionHandler
     ];
 
     protected $customHandlers = [
-        ValidationException::class => Validation::class
+        ValidationException::class => Validation::class,
+        ModelNotFoundException::class => NotFound::class
     ];
 
     /**

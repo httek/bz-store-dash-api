@@ -51,20 +51,22 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-        ],
-
+        '7ox' => [
+            'driver' => 'qiniu',
+            'buckets' => [
+                'default' => [
+                    'scheme' => 'https',
+                    'domain' => env('7OX_FS_DN'),
+                    'name' => env('7OX_FS_BK')
+                ]
+            ],
+            'access_key' => env('7OX_FS_AK'),  //AccessKey
+            'secret_key' => env('7OX_FS_SK'),  //SecretKey
+            'notify_url' => '',  //callback url, not using
+        ]
     ],
-
 ];

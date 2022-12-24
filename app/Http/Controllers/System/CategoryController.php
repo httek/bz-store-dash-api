@@ -25,7 +25,22 @@ class CategoryController extends Controller
 
         $items = Category::where($search)
             ->whereLevel(1)
+            ->latest('sequence')
             ->with(['children' => function($query) { $query->with('children'); }])
+            ->get();
+
+        return success($items);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function select()
+    {
+        $items = Category::whereLevel(1)
+            ->with('children')
+            ->latest('sequence')
+            ->whereStatus(1)
             ->get();
 
         return success($items);
@@ -40,8 +55,17 @@ class CategoryController extends Controller
     public function store(StoreRequest $request)
     {
         $attributes = $request->validated();
+        $parent = !empty($attributes['parent'])
+            ? Category::find($attributes['parent'])
+            : null;
 
-        return success($attributes);
+        if ($parent) {
+            $attributes['level'] = $parent->level + 1;
+        }
+
+        $item = Category::create($attributes);
+
+        return success($item);
     }
 
     /**
@@ -68,8 +92,11 @@ class CategoryController extends Controller
     {
         $item = Category::findOrFail($id);
         $attributes = $request->validated();
-
-        return success($attributes);
+        if (!empty($attributes['parent']) && $attributes['parent'] != $item->parent) {
+            $attributes['level'] = (Category::find($attributes['parent'])->level ?? 0) + 1;
+        }
+        $item->update($attributes);
+        return success();
     }
 
     /**
@@ -82,6 +109,7 @@ class CategoryController extends Controller
     {
         $item = Category::findOrFail($id);
         $item->children()->delete();
+        $item->delete();
 
         return success();
     }

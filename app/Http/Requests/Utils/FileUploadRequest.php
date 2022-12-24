@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Utils;
 
 use Anik\Form\FormRequest;
 
-class UpdateRequest extends FormRequest
+class FileUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class UpdateRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'name' => 'required|min:2',
-            'cover' => 'url',
-            'parent' => 'nullable|integer',
-            'sequence' => 'numeric',
-            'status' => 'in:0,1'
+            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf'
         ];
     }
 }

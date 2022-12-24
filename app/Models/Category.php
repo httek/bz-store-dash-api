@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    use SerializeDate;
+
     /**
      * @var string[]
      */
@@ -29,6 +32,7 @@ class Category extends Model
      */
     public function children()
     {
-        return $this->hasMany(self::class, 'parent', 'id');
+        return $this->hasMany(self::class, 'parent', 'id')
+            ->latest('sequence');
     }
 }
