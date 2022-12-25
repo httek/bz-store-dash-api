@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Delivery;
 
 use Anik\Form\FormRequest;
 
-class FilterStoreRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class FilterStoreRequest extends FormRequest
      */
     protected function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class FilterStoreRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            //
+            'type' => 'in:-1,0,1,2',
+            'name' => 'string'
         ];
     }
 }

@@ -32,11 +32,22 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     // Category
     $router->group(['prefix' => 'system', 'namespace' => 'System'], function () use ($router) {
-        $router->get('categories', 'CategoryController@index');
-        $router->get('categories/{id:[\d]+}', 'CategoryController@show');
-        $router->get('categories/select', 'CategoryController@select');
-        $router->post('categories', 'CategoryController@store');
-        $router->post('categories/{id:[\d]+}', 'CategoryController@update');
-        $router->delete('categories/{id:[\d]+}', 'CategoryController@destroy');
+        $router->group(['prefix' => 'categories'], function () use ($router) {
+            $router->get('', 'CategoryController@index');
+            $router->get('{id:[\d]+}', 'CategoryController@show');
+            $router->get('select', 'CategoryController@select');
+            $router->post('', 'CategoryController@store');
+            $router->post('{id:[\d]+}', 'CategoryController@update');
+            $router->delete('{id:[\d]+}', 'CategoryController@destroy');
+        });
+
+        $router->group(['prefix' => 'delivery/templates'], function () use ($router) {
+            $router->get('', 'DeliveryTemplateController@index');
+            $router->get('{id:[\d]+}', 'DeliveryTemplateController@show');
+            $router->get('select', 'DeliveryTemplateController@select');
+            $router->post('', 'DeliveryTemplateController@store');
+            $router->post('{id:[\d]+}', 'DeliveryTemplateController@update');
+            $router->delete('{id:[\d]+}', 'DeliveryTemplateController@destroy');
+        });
     });
 });

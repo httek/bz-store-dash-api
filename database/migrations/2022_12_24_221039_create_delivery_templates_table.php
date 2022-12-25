@@ -21,6 +21,7 @@ class CreateDeliveryTemplatesTable extends Migration
             $table->json('meta')->nullable()->comment('配送信息');
             $table->string('tips', 400)->nullable()->comment('提示');
             $table->unsignedTinyInteger('status')->default(1);
+            $table->unsignedBigInteger('sequence')->default(0);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
         });

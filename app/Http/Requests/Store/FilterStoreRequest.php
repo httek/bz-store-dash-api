@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Store;
 
 use Anik\Form\FormRequest;
 
-class UpdateStoreRequest extends FormRequest
+class FilterStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
