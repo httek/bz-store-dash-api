@@ -13,7 +13,7 @@ class UpdateStoreRequest extends FormRequest
      */
     protected function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,12 +24,12 @@ class UpdateStoreRequest extends FormRequest
     protected function rules(): array
     {
         return [
+            'partner' => 'required',
             'name' => 'required',
-            'store_name' => 'required',
-            'store_logo' => 'required|url',
+            'logo' => 'required|url',
             'photos' => 'array',
             'photos.*' => 'url',
-            'cash_type' => 'in:0,1',
+            'cash' => 'in:0,1',
             'cash_meta' => 'array',
             'address' => 'string',
             'aptitude' => 'url',

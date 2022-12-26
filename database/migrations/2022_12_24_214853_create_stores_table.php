@@ -15,11 +15,11 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->char('name', 180)->unique()->comment('商家名称');
-            $table->char('store_name', 80)->unique()->comment('店铺名称');
-            $table->string('store_logo', 400)->nullable()->comment('店铺Logo');
+            $table->char('partner', 180)->unique()->comment('商家名称');
+            $table->char('name', 80)->unique()->comment('店铺名称');
+            $table->string('logo', 400)->nullable()->comment('店铺Logo');
             $table->json('photos')->nullable()->comment('店铺图册');
-            $table->unsignedTinyInteger('cash_type')->default(0)->comment('收款方式:0 对公 1 对私');
+            $table->unsignedTinyInteger('cash')->default(0)->comment('收款方式:0 对公 1 对私');
             $table->json('cash_meta')->nullable()->comment('收款信息');
             $table->json('address')->nullable()->comment('地区');
             $table->string('aptitude', 400)->nullable()->comment('资质文件');

@@ -19,6 +19,7 @@ class StoreController extends Controller
     {
         $search = $request->getFilterAttributes();
         $items = Store::where($search)
+            ->with('deliveryTemplate')
             ->latest('sequence')
             ->paginate($this->getPageSize());
 

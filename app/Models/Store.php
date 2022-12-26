@@ -19,4 +19,9 @@ class Store extends Model
      * @var string[]
      */
     protected $casts = ['photos' => 'array', 'cash_meta' => 'array'];
+
+    public function deliveryTemplate()
+    {
+        return $this->hasOne(DeliveryTemplate::class, 'id', 'delivery_template_id');
+    }
 }

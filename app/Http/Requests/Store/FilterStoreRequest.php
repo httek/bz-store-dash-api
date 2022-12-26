@@ -25,13 +25,13 @@ class FilterStoreRequest extends FormRequest
     protected function rules(): array
     {
         return [
+            'partner' => 'string',
             'name' => 'string',
-            'store_name' => 'string',
-            'cash_type' => 'in:0,1',
+            'cash' => 'in:-1,0,1',
             'address' => 'string',
             'owner_id' => 'integer',
             'delivery_template_id' => 'integer',
-            'status' => 'in:0,1,2',
+            'status' => 'in:-1,0,1,2',
             'created_at' => 'array|max:2|min:2'
         ];
     }
@@ -43,20 +43,20 @@ class FilterStoreRequest extends FormRequest
     {
         $search = [];
         $validated = $this->validated();
-        if (!empty($validated['name'])) {
-            $search[] = ['name', 'LIKE', "%{$validated['name']}%"];
+        if (!empty($validated['partner'])) {
+            $search[] = ['partner', 'LIKE', "%{$validated['partner']}%"];
         }
 
-        if (!empty($validated['store_name'])) {
-            $search[] = ['store_name', 'LIKE', "%{$validated['store_name']}%"];
+        if (!empty($validated['name'])) {
+            $search[] = ['name', 'LIKE', "%{$validated['name']}%"];
         }
 
         if (!empty($validated['address'])) {
             $search[] = ['address', 'LIKE', "%{$validated['address']}%"];
         }
 
-        if (!empty($validated['cash_type']) && $validated['cash_type'] >= 0) {
-            $search['cash_type'] = $validated['cash_type'];
+        if (!empty($validated['cash']) && $validated['cash'] >= 0) {
+            $search['cash'] = $validated['cash'];
         }
 
         if (!empty($validated['owner_id']) && $validated['owner_id'] >= 0) {
@@ -67,7 +67,7 @@ class FilterStoreRequest extends FormRequest
             $search['delivery_template_id'] = $validated['delivery_template_id'];
         }
 
-        if (!empty($validated['status']) && $validated['status'] >= 0) {
+        if (isset($validated['status']) && $validated['status'] >= 0) {
             $search['status'] = $validated['status'];
         }
 
