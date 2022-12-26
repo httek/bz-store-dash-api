@@ -48,7 +48,7 @@ class StoreController extends Controller
      */
     public function show(int $id)
     {
-        $item = Store::findOfFail($id);
+        $item = Store::findOrFail($id);
 
         return success($item);
     }

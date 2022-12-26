@@ -30,6 +30,13 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('upload', 'UploadController@upload');
     });
 
+    $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {
+        $router->group(['prefix' => 'admins'], function () use ($router) {
+            $router->get('', 'AdminController@index');
+        });
+    });
+
+
     // Category
     $router->group(['prefix' => 'system', 'namespace' => 'System'], function () use ($router) {
         $router->group(['prefix' => 'categories'], function () use ($router) {
