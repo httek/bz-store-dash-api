@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Store\AddStoreRequest;
+use App\Http\Requests\Store\FilterStoreRequest;
+use App\Http\Requests\Store\UpdateStoreRequest;
 use App\Models\Store;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
@@ -13,9 +15,14 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(FilterStoreRequest $request)
     {
-        //
+        $search = $request->getFilterAttributes();
+        $items = Store::where($search)
+            ->latest('sequence')
+            ->paginate($this->getPageSize());
+
+        return success($items);
     }
 
     /**
@@ -24,9 +31,13 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddStoreRequest $request)
     {
-        //
+        $attributes = $request->validated();
+
+        $item = Store::create($attributes);
+
+        return success($item);
     }
 
     /**
@@ -35,9 +46,11 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store)
+    public function show(int $id)
     {
-        //
+        $item = Store::findOfFail($id);
+
+        return success($item);
     }
 
     /**
@@ -47,9 +60,13 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Store $store)
+    public function update(UpdateStoreRequest $request, int $id)
     {
-        //
+        $item = Store::findOrFail($id);
+        $attributes = $request->validated();
+        $item->update($attributes);
+
+        return success($item);
     }
 
     /**
@@ -58,8 +75,11 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Store $store)
+    public function destroy(id $id)
     {
-        //
+        $item = Store::findOrFail($id);
+        $item->delete();
+
+        return success();
     }
 }

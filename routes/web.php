@@ -49,5 +49,14 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->post('{id:[\d]+}', 'DeliveryTemplateController@update');
             $router->delete('{id:[\d]+}', 'DeliveryTemplateController@destroy');
         });
+
+        $router->group(['prefix' => 'stores'], function () use ($router) {
+            $router->get('', 'StoreController@index');
+            $router->get('{id:[\d]+}', 'StoreController@show');
+            $router->get('select', 'StoreController@select');
+            $router->post('', 'StoreController@store');
+            $router->post('{id:[\d]+}', 'StoreController@update');
+            $router->delete('{id:[\d]+}', 'StoreController@destroy');
+        });
     });
 });
