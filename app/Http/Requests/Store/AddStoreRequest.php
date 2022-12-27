@@ -27,18 +27,18 @@ class AddStoreRequest extends FormRequest
             'partner' => 'required',
             'name' => 'required',
             'logo' => 'required|url',
-            'photos' => 'array',
-            'photos.*' => 'url',
+//            'photos' => 'array',
+//            'photos.*' => 'url',
             'cash' => 'in:0,1',
             'cash_meta' => 'array',
             'address' => 'string',
-            'aptitude' => 'url',
+//            'aptitude' => 'url',
             'deposit' => 'integer|min:0',
             'phone' => 'string|max:18',
-            'deduct' => 'integer|min:0',
+            'deduct' => 'numeric|min:0|max:1',
             'sequence' => 'integer|min:0',
             'owner_id' => 'integer',
-            'delivery_template_id' => 'integer',
+//            'delivery_template_id' => 'integer',
             'status' => 'in:0,1,2'
         ];
     }

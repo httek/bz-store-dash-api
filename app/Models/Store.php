@@ -24,4 +24,14 @@ class Store extends Model
     {
         return $this->hasOne(DeliveryTemplate::class, 'id', 'delivery_template_id');
     }
+
+    public function setDeductAttribute($value)
+    {
+        $this->attributes['deduct'] = $value ? $value * 100 : 0;
+    }
+
+    public function getDeductAttribute($value)
+    {
+        return $value ? $value / 100 : 0;
+    }
 }
