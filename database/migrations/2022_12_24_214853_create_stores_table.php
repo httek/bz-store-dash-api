@@ -31,6 +31,8 @@ class CreateStoresTable extends Migration
             $table->unsignedBigInteger('owner_id')->nullable()->comment('店铺账号ID');
             $table->unsignedBigInteger('delivery_template_id')->nullable()->comment('配送模版');
             $table->unsignedTinyInteger('status')->default(1)->comment('0 Blocked 1 Closing 2 Sale');
+            $table->string('description', 400)->nullable();
+            $table->timestamp('expired_at')->nullable()->comment('服务截止');
             $table->timestamps();
             $table->softDeletes();
         });

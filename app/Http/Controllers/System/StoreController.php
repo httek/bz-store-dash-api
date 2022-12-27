@@ -7,6 +7,9 @@ use App\Http\Requests\Store\AddStoreRequest;
 use App\Http\Requests\Store\FilterStoreRequest;
 use App\Http\Requests\Store\UpdateStoreRequest;
 use App\Models\Store;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class StoreController extends Controller
 {
@@ -82,5 +85,28 @@ class StoreController extends Controller
         $item->delete();
 
         return success();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function precisSearch(Request $request)
+    {
+        $precis = $this->validate($request, ['key' => 'required|string', 'value' => 'required']);
+        $results = null;
+        $model = new Store();
+        $columns = Schema::getColumnListing($model->getTable());
+        if (! in_array($precis['key'], $columns)) {
+            return success($results);
+        }
+
+        $select = $request->input('fields', [$precis['key']]);
+        $results = $model->where($precis['key'], $precis['value'])
+            ->select($select)
+            ->get();
+
+        return success($results);
     }
 }

@@ -36,6 +36,15 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         });
     });
 
+    // Category
+    $router->group(['prefix' => 'goods', 'namespace' => 'Goods'], function () use ($router) {
+        $router->get('', 'GoodsController@index');
+        $router->get('{id:[\d]+}', 'GoodsController@show');
+        $router->post('', 'GoodsController@store');
+        $router->post('{id:[\d]+}', 'GoodsController@update');
+        $router->delete('{id:[\d]+}', 'GoodsController@destroy');
+        $router->get('precis', 'GoodsController@precisSearch');
+    });
 
     // Category
     $router->group(['prefix' => 'system', 'namespace' => 'System'], function () use ($router) {
@@ -63,6 +72,16 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->post('', 'StoreController@store');
             $router->post('{id:[\d]+}', 'StoreController@update');
             $router->delete('{id:[\d]+}', 'StoreController@destroy');
+            $router->get('precis', 'StoreController@precisSearch');
+        });
+
+        $router->group(['prefix' => 'stores'], function () use ($router) {
+            $router->get('', 'StoreController@index');
+            $router->get('{id:[\d]+}', 'StoreController@show');
+            $router->post('', 'StoreController@store');
+            $router->post('{id:[\d]+}', 'StoreController@update');
+            $router->delete('{id:[\d]+}', 'StoreController@destroy');
+            $router->get('precis', 'StoreController@precisSearch');
         });
     });
 });
