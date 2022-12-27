@@ -44,14 +44,18 @@ class Init extends Command
 
         $admin = Admin::find(1);
         if (! $admin) {
+            $password = $this->option('password') ?: '123456';
+            $mobile = 18101333903;
             $admin = Admin::create([
                 'name' => '超管',
                 'type' => 0,
-                'mobile' => 18101333903,
-                'password' => Hash::make($this->option('password') ?: '123456'),
+                'mobile' => $mobile,
+                'password' => Hash::make($password),
             ]);
+
+            $this->info("Init account: ${mobile}/${password}");
         }
 
-        dd($role->toArray(), $admin->toArray());
+        $this->info('Successful.');
     }
 }
