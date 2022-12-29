@@ -24,6 +24,7 @@ class CategoryController extends Controller
         }
 
         $items = Category::where($search)
+            ->with('parentNode')
             ->whereLevel(1)
             ->latest('sequence')
             ->with(['children' => function($query) { $query->with('children'); }])

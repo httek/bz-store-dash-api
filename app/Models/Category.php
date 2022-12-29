@@ -28,11 +28,20 @@ class Category extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function parentNode()
+    {
+        return $this->hasOne(self::class, 'id', 'parent');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children()
     {
         return $this->hasMany(self::class, 'parent', 'id')
+            ->with('parentNode')
             ->latest('sequence');
     }
 }
