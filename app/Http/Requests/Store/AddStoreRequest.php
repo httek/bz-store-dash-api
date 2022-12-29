@@ -39,7 +39,8 @@ class AddStoreRequest extends FormRequest
             'sequence' => 'integer|min:0',
             'owner_id' => 'integer',
 //            'delivery_template_id' => 'integer',
-            'status' => 'in:0,1,2'
+            'status' => 'in:0,1,2',
+            'expired_at' => 'date_format:Y-m-d H:i:s'
         ];
     }
 }
