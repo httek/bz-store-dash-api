@@ -28,7 +28,8 @@ class UpdateRequest extends FormRequest
             'cover' => 'url',
             'parent' => 'nullable|integer',
             'sequence' => 'numeric',
-            'status' => 'in:0,1'
+            'status' => 'in:0,1',
+            'type' => 'in:0,1',
         ];
     }
 }

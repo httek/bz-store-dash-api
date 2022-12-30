@@ -7,6 +7,7 @@ use App\Http\Requests\Category\SearchRequest;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -36,9 +37,11 @@ class CategoryController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function select()
+    public function select(Request $request)
     {
+        $type = $request->input('type', 0);
         $items = Category::whereLevel(1)
+            ->whereType($type)
             ->with('children')
             ->latest('sequence')
             ->whereStatus(1)

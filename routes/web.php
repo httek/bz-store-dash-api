@@ -75,13 +75,13 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->get('precis', 'StoreController@precisSearch');
         });
 
-        $router->group(['prefix' => 'stores'], function () use ($router) {
-            $router->get('', 'StoreController@index');
-            $router->get('{id:[\d]+}', 'StoreController@show');
-            $router->post('', 'StoreController@store');
-            $router->post('{id:[\d]+}', 'StoreController@update');
-            $router->delete('{id:[\d]+}', 'StoreController@destroy');
-            $router->get('precis', 'StoreController@precisSearch');
+        $router->group(['prefix' => 'brands'], function () use ($router) {
+            $router->get('', 'BrandController@index');
+            $router->get('{id:[\d]+}', 'BrandController@show');
+            $router->post('', 'BrandController@store');
+            $router->post('{id:[\d]+}', 'BrandController@update');
+            $router->delete('{id:[\d]+}', 'BrandController@destroy');
+            $router->get('precis', 'BrandController@precisSearch');
         });
     });
 });
