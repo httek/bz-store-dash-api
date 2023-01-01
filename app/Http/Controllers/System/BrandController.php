@@ -19,6 +19,10 @@ class BrandController extends Controller
         if ($name = $request->input('name')) {
             $where[] = ['name', 'like', "%{$name}%"];
         }
+	$status = $request->input('status', -1);
+	if ($status >= 0) {
+	    $where['status'] = $status;
+	}
 
         $items = Brand::where($where)
             ->with('category')
@@ -42,7 +46,7 @@ class BrandController extends Controller
             'status' => 'in:0,1',
             'site' => 'url',
             'description' => 'string|max:500',
-            'category_id' => 'exists:categories,id'
+            'category_id' => 'nullable|integer|min:0'
         ]);
 
         if (Brand::whereName($request->input('name'))->exists()) {
@@ -77,7 +81,7 @@ class BrandController extends Controller
             'status' => 'in:0,1',
             'site' => 'url',
             'description' => 'string|max:500',
-            'category_id' => 'exists:categories,id'
+            'category_id' => 'nullable|integer|min:0'
         ]);
 
         $item->update($attributes);

@@ -8,7 +8,6 @@ use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -29,7 +28,7 @@ class CategoryController extends Controller
             ->whereLevel(1)
             ->latest('sequence')
             ->with(['children' => function($query) { $query->with('children'); }])
-            ->get();
+            ->paginate($this->getPageSize());
 
         return success($items);
     }

@@ -83,5 +83,14 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->delete('{id:[\d]+}', 'BrandController@destroy');
             $router->get('precis', 'BrandController@precisSearch');
         });
+
+        $router->group(['prefix' => 'products'], function () use ($router) {
+            $router->get('', 'ProductController@index');
+            $router->get('{id:[\d]+}', 'ProductController@show');
+            $router->post('', 'ProductController@store');
+            $router->post('{id:[\d]+}', 'ProductController@update');
+            $router->delete('{id:[\d]+}', 'ProductController@destroy');
+            $router->get('precis', 'ProductController@precisSearch');
+        });
     });
 });
