@@ -30,6 +30,22 @@ class StoreController extends Controller
     }
 
     /**
+     * Select
+     *
+     */
+    public function select(Request $request)
+    {
+        $search = [];
+        if ($name = $request->input('name')) {
+            $search[] = ['name', 'LIKE', "%{$name}%"];
+        }
+
+        $items = Store::where($search)->limit(20)->get();
+
+        return success($items);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

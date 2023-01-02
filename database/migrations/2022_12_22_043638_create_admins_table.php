@@ -23,7 +23,7 @@ class CreateAdminsTable extends Migration
             $table->string('avatar', 400)->nullable();
             $table->json('settings')->nullable();
             $table->unsignedTinyInteger('status')->default(1);
-            $table->unsignedTinyInteger('type')->default(1)->comment('0 super, 1 admin');
+            $table->unsignedTinyInteger('type')->default(1)->comment('0 super, 1 admin, 2 store owner');
             $table->timestamps();
             $table->foreign('role_id')->references('id')->on('roles');
         });

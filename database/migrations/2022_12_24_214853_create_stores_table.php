@@ -21,7 +21,7 @@ class CreateStoresTable extends Migration
             $table->json('photos')->nullable()->comment('店铺图册');
             $table->unsignedTinyInteger('cash')->default(0)->comment('收款方式:0 对公 1 对私');
             $table->json('cash_meta')->nullable()->comment('收款信息');
-            $table->json('address')->nullable()->comment('地区');
+            $table->string('address', 200)->nullable()->comment('地区');
             $table->string('aptitude', 400)->nullable()->comment('资质文件');
             $table->integer('deposit')->nullable()->comment('保证金');
             $table->char('phone', 18)->nullable()->comment('服务热线');

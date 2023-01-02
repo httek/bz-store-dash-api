@@ -35,6 +35,22 @@ class ProductController extends Controller
     }
 
     /**
+     * Select
+     *
+     */
+    public function select(Request $request)
+    {
+        $search = [];
+        if ($name = $request->input('name')) {
+            $search[] = ['name', 'LIKE', "%{$name}%"];
+        }
+
+        $items = Product::where($search)->limit(20)->get();
+
+        return success($items);
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws \Illuminate\Validation\ValidationException

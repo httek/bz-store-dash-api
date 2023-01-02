@@ -18,4 +18,18 @@ class AdminController extends Controller
 
         return success($items);
     }
+    
+    /**
+     * Select admins with type.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     */
+    public function select(Request $request)
+    {
+        $type = $request->input('type', 1);
+        $items = Admin::whereType($type)->get();
+
+        return success($items);
+    }
 }

@@ -19,10 +19,10 @@ class BrandController extends Controller
         if ($name = $request->input('name')) {
             $where[] = ['name', 'like', "%{$name}%"];
         }
-	$status = $request->input('status', -1);
-	if ($status >= 0) {
-	    $where['status'] = $status;
-	}
+    	$status = $request->input('status', -1);
+    	if ($status >= 0) {
+    	    $where['status'] = $status;
+    	}
 
         $items = Brand::where($where)
             ->with('category')
@@ -31,6 +31,23 @@ class BrandController extends Controller
 
         return success($items);
     }
+
+    /**
+     * Select
+     *
+     */
+    public function select(Request $request)
+    {
+        $search = [];
+        if ($name = $request->input('name')) {
+            $search[] = ['name', 'LIKE', "%{$name}%"];
+        }
+
+        $items = Brand::where($search)->limit(20)->get();
+
+        return success($items);
+    }
+
 
     /**
      * @param Request $request
