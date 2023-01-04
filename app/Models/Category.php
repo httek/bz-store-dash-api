@@ -20,6 +20,25 @@ class Category extends Model
     protected $appends = ['label'];
 
     /**
+     * @var string[]
+     */
+    protected $casts = ['path' => 'array'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function (Category $category) {
+            dd($category->getAttributeValue('parent_id'));
+        });
+    }
+
+    protected function getPath()
+    {
+
+    }
+
+    /**
      * @return mixed
      */
     public function getLabelAttribute()

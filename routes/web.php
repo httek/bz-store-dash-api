@@ -25,7 +25,23 @@ $router->group(['middleware' => 'auth', 'prefix' => 'auth'], function () use ($r
     $router->get('profile', 'Auth\IndexController@profile');
 });
 
-$router->group(['middleware' => 'auth'], function () use ($router) {
+$router->group(['middleware' => []], function () use ($router) {
+    // New
+    $router->group(['prefix' => 'categories'], function () use ($router) {
+        $router->get('', 'CategoryController@index');
+        $router->get('{id:[\d]+}', 'CategoryController@show');
+        $router->get('select', 'CategoryController@select');
+        $router->post('', 'CategoryController@store');
+        $router->post('{id:[\d]+}', 'CategoryController@update');
+        $router->delete('{id:[\d]+}', 'CategoryController@destroy');
+    });
+
+
+
+
+
+
+    // Old
     $router->group(['prefix' => 'utils', 'namespace' => 'Utils'], function () use ($router) {
         $router->post('upload', 'UploadController@upload');
     });

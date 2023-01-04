@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\System;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\SearchRequest;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;
@@ -18,6 +17,8 @@ class CategoryController extends Controller
      */
     public function index(SearchRequest $request)
     {
+        Category::create(['name' => '111']);
+
         $search = ['type' => $request->input('type', 0)];
         if ($name = $request->input('name')) {
             $search[] = ['name', 'LIKE', "%{$name}%"];
@@ -85,18 +86,20 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateRequest $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function update(UpdateRequest $request, $id)
     {
         $item = Category::findOrFail($id);
         $attributes = $request->validated();
         if (!empty($attributes['parent']) && $attributes['parent'] != $item->parent) {
-            $attributes['level'] = (Category::find($attributes['parent'])->level ?? 0) + 1;
+            $parent = Category::find($attributes['parent']);
+            $attributes['level'] = ($parent->level ?? 0) + 1;
+            $path = $parent->path ?? [];
+            $path[] = $item->id;
+            $attributes['path'] = $path;
         }
         $item->update($attributes);
         return success();

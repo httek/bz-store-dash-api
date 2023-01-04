@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|min:2',
             'cover' => 'url',
-            'parent' => 'nullable|integer',
+            'parent_id' => 'nullable|integer',
             'sequence' => 'numeric',
             'status' => 'in:0,1',
             'type' => 'in:0,1',
