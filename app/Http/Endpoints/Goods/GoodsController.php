@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Goods;
+namespace App\Http\Endpoints\Goods;
 
-use App\Http\Controllers\Controller;
+use App\Http\Endpoints\Controller;
 use App\Models\Goods;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

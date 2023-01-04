@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Utils;
+namespace App\Http\Endpoints\Utils;
 
-use App\Http\Controllers\Controller;
+use App\Http\Endpoints\Controller;
 use App\Http\Requests\Utils\FileUploadRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

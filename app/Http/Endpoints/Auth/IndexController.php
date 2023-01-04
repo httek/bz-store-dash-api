@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Endpoints\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Endpoints\Controller;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller

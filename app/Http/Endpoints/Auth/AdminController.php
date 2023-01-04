@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Endpoints\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Endpoints\Controller;
 use App\Http\Requests\Auth\SearchAdminRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class AdminController extends Controller
 
         return success($items);
     }
-    
+
     /**
      * Select admins with type.
      *

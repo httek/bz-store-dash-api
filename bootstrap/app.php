@@ -104,10 +104,16 @@ $app->bind(
 */
 
 $app->router->group([
-    'namespace' => 'App\Http\Controllers',
+    'namespace' => 'App\Http\Endpoints',
     'prefix' => 'v1'
 ], function ($router) {
     require __DIR__ . '/../routes/web.php';
+});
+
+$app->router->group([
+    'namespace' => 'App\Http\Controllers'
+], function ($router) {
+    require __DIR__ . '/../routes/api.php';
 });
 
 return $app;

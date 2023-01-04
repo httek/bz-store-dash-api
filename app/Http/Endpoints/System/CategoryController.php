@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\System;
+namespace App\Http\Endpoints\System;
 
-use App\Http\Controllers\Controller;
+use App\Http\Endpoints\Controller;
 use App\Http\Requests\Category\SearchRequest;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;

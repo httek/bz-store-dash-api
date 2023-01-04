@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Endpoints;
 
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-abstract class Controller extends BaseController
+class Controller extends BaseController
 {
     /**
      * @param Request|null $request

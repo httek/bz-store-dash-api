@@ -15,16 +15,16 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('type')->default(0)->comment('0 goods');
-            $table->char('name', 80)->nullable();
+            $table->unsignedTinyInteger('type')->default(0)->comment('0 goods 1 brands');
+            $table->char('name', 80)->nullable()->index();
             $table->string('cover', 400)->nullable();
-            $table->unsignedTinyInteger('status')->default(true);
-            $table->unsignedInteger('sequence')->nullable();
-            $table->unsignedBigInteger('parent')->nullable();
             $table->tinyInteger('level')->default(1);
+            $table->unsignedTinyInteger('status')->default(true);
+            $table->json('path')->nullable();
+            $table->unsignedInteger('sequence')->default(0);
+            $table->unsignedBigInteger('parent_id')->nullable()->index();
+            $table->unsignedBigInteger('created_by')->nullable()->index();
             $table->timestamps();
-
-            $table->foreign('parent')->references('id')->on('categories');
         });
     }
 

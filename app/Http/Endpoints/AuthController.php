@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Endpoints;
 
 use App\Http\Requests\LoginRequest;
 use App\Services\AdminService;
