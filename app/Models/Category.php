@@ -21,6 +21,11 @@ class Category extends Model
     protected $appends = ['label'];
 
     /**
+     * @var string[]
+     */
+    protected $casts = ['path' => 'json'];
+
+    /**
      * @return void
      */
     protected static function boot()

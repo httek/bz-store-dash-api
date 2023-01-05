@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Models\Category as Model;
+use App\Http\Requests\Category\Store;
+use App\Http\Requests\Category\Update;
+use App\Http\Requests\Category\Search;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Search $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index()
+    public function index(Search $request)
     {
-        return success([]);
+        $items = Model::where($request->condition())
+            ->latest('sequence')
+            ->paginate($this->getPageSize());
+
+        return success($items);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Store $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        //
+        return success();
     }
 
     /**
@@ -44,11 +51,11 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Update $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Update $request, $id)
     {
         $item = Category::findOrFail($id);
 
