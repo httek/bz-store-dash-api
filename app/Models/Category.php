@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\SerializeDate;
+use App\Observers\CategoryObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -18,6 +19,16 @@ class Category extends Model
      * @var string[]
      */
     protected $appends = ['label'];
+
+    /**
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::observe(CategoryObserver::class);
+    }
 
     /**
      * @return mixed
