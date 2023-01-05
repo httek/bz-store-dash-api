@@ -18,9 +18,9 @@ class CreateCategoriesTable extends Migration
             $table->unsignedTinyInteger('type')->default(0)->comment('0 goods 1 brands');
             $table->char('name', 80)->nullable()->index();
             $table->string('cover', 400)->nullable();
+            $table->json('path')->nullable();
             $table->tinyInteger('level')->default(1);
             $table->unsignedTinyInteger('status')->default(true);
-            $table->json('path')->nullable();
             $table->unsignedInteger('sequence')->default(0);
             $table->unsignedBigInteger('parent_id')->nullable()->index();
             $table->unsignedBigInteger('created_by')->nullable()->index();
