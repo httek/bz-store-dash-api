@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category as Model;
+use App\Models\Category;
 use App\Http\Requests\Category\Store;
 use App\Http\Requests\Category\Update;
 use App\Http\Requests\Category\Search;
@@ -17,8 +17,9 @@ class CategoryController extends Controller
      */
     public function index(Search $request)
     {
-        $items = Model::where($request->condition())
+        $items = Category::where($request->filter())
             ->latest('sequence')
+            ->withLevel()
             ->paginate($this->getPageSize());
 
         return success($items);
@@ -32,7 +33,13 @@ class CategoryController extends Controller
      */
     public function store(Store $request)
     {
-        return success();
+        if (Category::whereName($request->input('name'))->exists()) {
+            return fail('分类已存在');
+        }
+
+        $item = Model::create($request->validated());
+
+        return success($item);
     }
 
     /**
@@ -43,7 +50,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $item = Category::findOrFail($id);
+        $item = Model::findOrFail($id);
 
         return success($item);
     }
@@ -58,6 +65,15 @@ class CategoryController extends Controller
     public function update(Update $request, $id)
     {
         $item = Category::findOrFail($id);
+        $name = $request->input('name');
+
+        if ($name && $name != $item->name) {
+            if (Category::whereName($name)->exists()) {
+                return fail('分类已存在');
+            }
+        }
+
+        $item->update($request->validated());
 
         return success($item);
     }
@@ -70,8 +86,24 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        /** @var Category $item */
         $item = Category::findOrFail($id);
+        switch ($item->type) {
+            case 1:
+                if ($item->hasGoodsUsages())
+                    return fail("该分类存在商品关联、无法删除");
 
-        return success($item);
+                if ($item->hasProductUsages())
+                    return fail("该分类存在产品关联、无法删除");
+
+                break;
+            case 2:
+                if ($item->hasBrandUsages())
+                    return fail("该分类存在品牌关联、无法删除");
+
+                break;
+        }
+
+        return $item->delete() ? success() : fail();
     }
 }

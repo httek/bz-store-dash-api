@@ -23,19 +23,24 @@ class Search extends FormRequest
      */
     protected function rules(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     /**
      * @param array $extra
      * @return array
      */
-    public function condition(array $extra = [])
+    public function filter(array $extra = [])
     {
-        $condition = [];
+        $where = [];
+        if ($name = $this->input('name')) {
+            $where[] = ['name', 'like', "%{$name}%"];
+        }
 
-        return array_merge($condition, $extra);
+        if ($status = $this->input('status')) {
+            $where['status'] = $status;
+        }
+
+        return array_merge($where, $extra);
     }
 }
