@@ -13,10 +13,14 @@
 |
 */
 
+// Upload
+$router->post('upload', 'UploadController@upload');
+
 // Category
 $router->group(['prefix' => 'categories'], function () use ($router) {
     $router->get('', 'CategoryController@index');
     $router->get('{id:[\d]+}', 'CategoryController@show');
+    $router->get('select', 'CategoryController@select');
     $router->get('precise', 'CategoryController@precise');
     $router->post('', 'CategoryController@store');
     $router->post('{id:[\d]+}', 'CategoryController@update');

@@ -13,7 +13,7 @@ class Store extends FormRequest
      */
     protected function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class Store extends FormRequest
     protected function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'min:2'],
+            'cover' => ['url'],
+            'type' => ['nullable', 'in:1,2,3'],
+            'sequence' => ['nullable', 'numeric', 'min:0'],
+            'status' => ['in:0,1'],
+            'parent_id' => ['nullable', 'numeric', 'min:0']
         ];
     }
 }

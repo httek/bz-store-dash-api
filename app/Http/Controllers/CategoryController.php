@@ -39,9 +39,35 @@ class CategoryController extends Controller
             return fail('分类已存在');
         }
 
-        $item = Model::create($request->validated());
+        $new = $request->validated();
+        if ($pId = $request->input('parent_id')) {
+            if ($parent = Category::find($pId)) {
+                $new['level'] = $parent->level + 1;
+            }
+        }
+
+        $item = Category::create($new);
 
         return success($item);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function select(Request $request)
+    {
+        $where = [];
+        if ($type = $request->input('type')) {
+            $where['type'] = $type;
+        }
+
+        $items = Category::with(['parent', 'children'])
+            ->where($where)
+            ->topLevel()
+            ->get();
+
+        return success($items);
     }
 
     /**
@@ -65,7 +91,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $item = Model::findOrFail($id);
+        $item = Category::findOrFail($id);
 
         return success($item);
     }
@@ -82,13 +108,24 @@ class CategoryController extends Controller
         $item = Category::findOrFail($id);
         $name = $request->input('name');
 
+        if ($item->id == $item->parent_id) {
+            return fail('父级分类不能选择自身');
+        }
+
         if ($name && $name != $item->name) {
             if (Category::whereName($name)->exists()) {
                 return fail('分类已存在');
             }
         }
 
-        $item->update($request->validated());
+        $update = $request->validated();
+        if (($pId = $request->input('parent_id')) && $pId != $item->parent_id) {
+            if ($parent = Category::find($pId)) {
+                $update['level'] = $parent->level + 1;
+            }
+        }
+
+        $item->update($update);
 
         return success($item);
     }
@@ -103,6 +140,10 @@ class CategoryController extends Controller
     {
         /** @var Category $item */
         $item = Category::findOrFail($id);
+        if ($item->children()->count()) {
+            return fail("该分类存在子分类、无法删除");
+        }
+
         switch ($item->type) {
             case 1:
                 if ($item->hasGoodsUsages())

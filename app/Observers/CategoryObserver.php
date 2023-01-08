@@ -25,7 +25,7 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        //
+
     }
 
     /**
