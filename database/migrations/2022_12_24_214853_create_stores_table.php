@@ -17,7 +17,7 @@ class CreateStoresTable extends Migration
             $table->id();
             $table->char('partner', 180)->unique()->comment('商家名称');
             $table->char('name', 80)->unique()->comment('店铺名称');
-            $table->string('logo', 400)->nullable()->comment('店铺Logo');
+            $table->string('cover', 400)->nullable()->comment('店铺Logo');
             $table->json('photos')->nullable()->comment('店铺图册');
             $table->unsignedTinyInteger('cash')->default(0)->comment('收款方式:0 对公 1 对私');
             $table->json('cash_meta')->nullable()->comment('收款信息');
@@ -29,9 +29,9 @@ class CreateStoresTable extends Migration
             $table->unsignedBigInteger('sequence')->default(0);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable()->comment('店铺账号ID');
-            $table->unsignedBigInteger('delivery_template_id')->nullable()->comment('配送模版');
             $table->unsignedTinyInteger('status')->default(1)->comment('0 Blocked 1 Closing 2 Sale');
             $table->string('description', 400)->nullable();
+            $table->unsignedTinyInteger('level')->default(0);
             $table->timestamp('expired_at')->nullable()->comment('服务截止');
             $table->timestamps();
             $table->softDeletes();

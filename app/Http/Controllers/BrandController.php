@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Brand\Update;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Http\Requests\Brand\Store;
@@ -88,7 +89,7 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Update $request, $id)
     {
         $item = Brand::findOrFail($id);
         $name = $request->input('name');

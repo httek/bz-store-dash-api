@@ -42,6 +42,7 @@ $router->group(['prefix' => 'brands'], function () use ($router) {
 $router->group(['prefix' => 'stores'], function () use ($router) {
     $router->get('', 'StoreController@index');
     $router->get('{id:[\d]+}', 'StoreController@show');
+    $router->get('select', 'StoreController@select');
     $router->get('precise', 'StoreController@precise');
     $router->post('', 'StoreController@store');
     $router->post('{id:[\d]+}', 'StoreController@update');

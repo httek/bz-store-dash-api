@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\PreciseSearch;
 use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
-    use SerializeDate, SoftDeletes;
+    use SerializeDate, SoftDeletes, PreciseSearch;
 
     /**
      * @var string[]
@@ -20,16 +21,32 @@ class Store extends Model
      */
     protected $casts = ['photos' => 'array', 'cash_meta' => 'array'];
 
-    public function deliveryTemplate()
+    /**
+     * @var string[]
+     */
+    protected $hidden = ['deleted_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function owner()
     {
-        return $this->hasOne(DeliveryTemplate::class, 'id', 'delivery_template_id');
+        return $this->hasOne(Admin::class, 'id', 'owner_id');
     }
 
+    /**
+     * @param $value
+     * @return void
+     */
     public function setDeductAttribute($value)
     {
         $this->attributes['deduct'] = $value ? $value * 100 : 0;
     }
 
+    /**
+     * @param $value
+     * @return float|int
+     */
     public function getDeductAttribute($value)
     {
         return $value ? $value / 100 : 0;

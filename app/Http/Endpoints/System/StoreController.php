@@ -3,9 +3,9 @@
 namespace App\Http\Endpoints\System;
 
 use App\Http\Endpoints\Controller;
-use App\Http\Requests\Store\AddStoreRequest;
-use App\Http\Requests\Store\FilterStoreRequest;
-use App\Http\Requests\Store\UpdateStoreRequest;
+use App\Http\Requests\Store\Store;
+use App\Http\Requests\Store\Search;
+use App\Http\Requests\Store\Update;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FilterStoreRequest $request)
+    public function index(Search $request)
     {
         $search = $request->getFilterAttributes();
         $items = Store::where($search)
@@ -51,7 +51,7 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddStoreRequest $request)
+    public function store(Store $request)
     {
         $attributes = $request->validated();
 
@@ -80,7 +80,7 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStoreRequest $request, int $id)
+    public function update(Update $request, int $id)
     {
         $item = Store::findOrFail($id);
         $attributes = $request->validated();

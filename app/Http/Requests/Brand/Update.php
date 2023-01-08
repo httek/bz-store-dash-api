@@ -26,11 +26,11 @@ class Update extends FormRequest
         return [
             'name' => ['required', 'string', 'min:2'],
             'cover' => ['url'],
-            'site' => ['url'],
+            'site' => ['nullable', 'url'],
             'sequence' => ['nullable', 'numeric', 'min:0'],
             'status' => ['in:0,1'],
             'category_id' => ['nullable', 'numeric', 'min:0'],
-            'description' => ['string', 'max:300']
+            'description' => ['nullable', 'string', 'max:300']
         ];
     }
 }
