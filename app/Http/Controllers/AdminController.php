@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Http\Endpoints\Controller;
 use App\Http\Requests\Admin\Search;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class AdminController extends Controller
 {
@@ -31,9 +32,15 @@ class AdminController extends Controller
     public function select(Request $request)
     {
         // 1 admin, 2 store owner
-        $type = $request->input('type', 1);
-        $items = Admin::whereType($type)
-            ->get();
+        $where = ['type' => $request->input('type', 1)];
+        $key = $request->input('key');
+        $value = $request->input('value');
+        $table = (new Admin)->getTable();
+        if ($key && $value && Schema::hasColumn($table, $key)) {
+            $where[$key] = $value;
+        }
+
+        $items = Admin::where($where)->get();
 
         return success($items);
     }
