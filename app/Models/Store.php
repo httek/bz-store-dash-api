@@ -52,6 +52,10 @@ class Store extends Model
         return $value ? $value / 100 : 0;
     }
 
+    /**
+     * @param $value
+     * @return mixed|null
+     */
     public function getCashMetaAttribute($value)
     {
         if (is_null($value)) return $value;
