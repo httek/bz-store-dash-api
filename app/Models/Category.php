@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\PreciseSearch;
 use App\Models\Traits\SerializeDate;
 use App\Observers\CategoryObserver;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-    use SerializeDate;
+    use SerializeDate, PreciseSearch;
 
     /**
      * @var string[]
@@ -43,11 +44,21 @@ class Category extends Model
     }
 
     /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeTopLevel($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function parent()
     {
-        return $this->hasOne(self::class, 'id', 'parent_id');
+        return $this->hasOne(self::class, 'id', 'parent_id')
+            ->select(['id', 'name', 'cover']);
     }
 
     /**
@@ -56,7 +67,7 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id', 'id')
-            ->with('parent')
+            ->with(['parent', 'children'])
             ->latest('sequence');
     }
 

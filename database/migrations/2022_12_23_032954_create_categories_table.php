@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('type')->default(0)->comment('0 goods 1 brands');
+            $table->unsignedTinyInteger('type')->default(1)->comment('1 goods 2 brands');
             $table->char('name', 80)->nullable()->index();
             $table->string('cover', 400)->nullable();
             $table->json('path')->nullable();

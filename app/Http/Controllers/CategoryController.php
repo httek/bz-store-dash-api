@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Requests\Category\Store;
 use App\Http\Requests\Category\Update;
 use App\Http\Requests\Category\Search;
@@ -19,7 +20,8 @@ class CategoryController extends Controller
     {
         $items = Category::where($request->filter())
             ->latest('sequence')
-            ->withLevel()
+            ->with('children')
+            ->topLevel()
             ->paginate($this->getPageSize());
 
         return success($items);
@@ -40,6 +42,19 @@ class CategoryController extends Controller
         $item = Model::create($request->validated());
 
         return success($item);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function precise(Request $request)
+    {
+        $precise = $this->validate($request, ['key' => 'required', 'value' => 'required']);
+        extract($precise);
+
+        return success(Category::precise($key, $value));
     }
 
     /**
