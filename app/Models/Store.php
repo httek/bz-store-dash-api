@@ -19,7 +19,7 @@ class Store extends Model
     /**
      * @var string[]
      */
-    protected $casts = ['photos' => 'array', 'cash_meta' => 'array'];
+    protected $casts = ['photos' => 'array', 'cash_meta' => 'json'];
 
     /**
      * @var string[]
@@ -50,5 +50,12 @@ class Store extends Model
     public function getDeductAttribute($value)
     {
         return $value ? $value / 100 : 0;
+    }
+
+    public function getCashMetaAttribute($value)
+    {
+        if (is_null($value)) return $value;
+
+        return json_decode($value);
     }
 }

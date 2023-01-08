@@ -18,7 +18,6 @@ class StoreController extends Controller
     public function index(Search $search)
     {
         $items = Store::where($search->filter())
-            ->latest('sequence')
             ->with('owner')
             ->paginate($this->getPageSize());
 

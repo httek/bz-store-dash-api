@@ -29,14 +29,14 @@ class Update extends FormRequest
             'cover' => 'required|url',
             'cash' => 'in:0,1',
             'cash_meta' => 'array',
-            'address' => 'string',
+            'address' => 'nullable|string',
             'deposit' => 'integer|min:0',
-            'phone' => 'string|max:18',
+            'phone' => 'nullable|string|max:18',
             'deduct' => 'numeric|min:0|max:1',
             'sequence' => 'integer|min:0',
             'owner_id' => 'integer',
             'status' => 'in:0,1,2',
-            'expired_at' => 'date_format:Y-m-d H:i:s'
+            'expired_at' => 'nullable|date_format:Y-m-d H:i:s'
         ];
     }
 }

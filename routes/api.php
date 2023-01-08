@@ -16,6 +16,17 @@
 // Upload
 $router->post('upload', 'UploadController@upload');
 
+// Admins
+$router->group(['prefix' => 'admins'], function () use ($router) {
+    $router->get('', 'AdminController@index');
+    $router->get('{id:[\d]+}', 'AdminController@show');
+    $router->get('select', 'AdminController@select');
+    $router->get('precise', 'AdminController@precise');
+    $router->post('', 'AdminController@store');
+    $router->post('{id:[\d]+}', 'AdminController@update');
+    $router->delete('{id:[\d]+}', 'AdminController@destroy');
+});
+
 // Category
 $router->group(['prefix' => 'categories'], function () use ($router) {
     $router->get('', 'CategoryController@index');
