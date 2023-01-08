@@ -27,7 +27,7 @@ class Store extends FormRequest
             'partner' => 'required',
             'name' => 'required',
             'cover' => 'required|url',
-            'photos' => 'array',
+            'photos' => 'nullable|array',
             'photos.*' => 'url',
             'cash' => 'in:0,1',
             'cash_meta' => 'array',
