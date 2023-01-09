@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 
-class DeliveryTemplate extends Model
+class Delivery extends Model
 {
     use SerializeDate;
 
