@@ -25,6 +25,7 @@ class CreateDeliveriesTable extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable()->index();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

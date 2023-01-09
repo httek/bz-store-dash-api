@@ -11,11 +11,12 @@ trait PreciseSearch
      * @param $value
      * @return PreciseSearch|null
      */
-    public function precise(string $key, $value)
+    public function precise(?string $key, $value)
     {
         if (! Schema::hasColumn((new static())->getTable(), $key)) {
             return null;
         }
+
 
         return static::where($key, $value)->first();
     }

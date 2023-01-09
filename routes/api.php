@@ -60,6 +60,17 @@ $router->group(['prefix' => 'stores'], function () use ($router) {
     $router->delete('{id:[\d]+}', 'StoreController@destroy');
 });
 
+// Delivery
+$router->group(['prefix' => 'deliveries'], function () use ($router) {
+    $router->get('', 'DeliveryController@index');
+    $router->get('{id:[\d]+}', 'DeliveryController@show');
+    $router->get('select', 'DeliveryController@select');
+    $router->get('precise', 'DeliveryController@precise');
+    $router->post('', 'DeliveryController@store');
+    $router->post('{id:[\d]+}', 'DeliveryController@update');
+    $router->delete('{id:[\d]+}', 'DeliveryController@destroy');
+});
+
 // Product
 $router->group(['prefix' => 'products'], function () use ($router) {
     $router->get('', 'ProductController@index');
