@@ -24,6 +24,7 @@ class CreateGoodsTable extends Migration
             $table->char('uuid', 80)->nullable()->comment('商品编号');
             $table->char('name', 80)->nullable();
             $table->char('slogan', 120)->nullable();
+            $table->char('badge', 10)->nullable();
             $table->string('tips', 400)->nullable()->comment('提示');
             $table->integer('sale_price')->default(0);
             $table->integer('origin_price')->default(0);
