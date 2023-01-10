@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Admin;
+use App\Models\Product;
 use App\Services\TokenService;
 use Illuminate\Console\Command;
 
@@ -22,7 +23,8 @@ class Test extends Command
      */
     public function handle()
     {
-        $admin = Admin::find(1);
-        dd(TokenService::issue($admin));
+        dd(
+            Product::create(['name' => 'Test'])
+        );
     }
 }

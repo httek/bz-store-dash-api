@@ -75,6 +75,7 @@ $router->group(['prefix' => 'deliveries'], function () use ($router) {
 $router->group(['prefix' => 'products'], function () use ($router) {
     $router->get('', 'ProductController@index');
     $router->get('{id:[\d]+}', 'ProductController@show');
+    $router->get('select', 'ProductController@select');
     $router->get('precise', 'ProductController@precise');
     $router->post('', 'ProductController@store');
     $router->post('{id:[\d]+}', 'ProductController@update');

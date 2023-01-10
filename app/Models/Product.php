@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\Traits\IfExists;
+use App\Models\Traits\PreciseSearch;
 use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use SerializeDate, SoftDeletes, IfExists;
+    use SerializeDate, SoftDeletes, IfExists, PreciseSearch;
 
     /**
      * @var string[]

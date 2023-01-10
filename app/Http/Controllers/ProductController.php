@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\Request;
 use App\Http\Requests\Product\Store;
 use App\Http\Requests\Product\Search;
 use App\Http\Requests\Product\Update;
@@ -26,6 +27,44 @@ class ProductController extends Controller
             ->paginate($this->getPageSize());
 
         return success($items);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function select(Request $request)
+    {
+        $where = [];
+        if (($status = $request->input('status', -1)) >= 0) {
+            $where['status'] = $status;
+        }
+        if ($name = $request->input('name')) {
+            $where[] = ['name', 'LIKE', "%{$name}%"];
+        }
+
+        $items = Product::with('category')
+            ->where($where)
+            ->latest('sequence')
+            ->latest('status')
+            ->latest()
+            ->select(['id', 'name', 'covers', 'status', 'category_id'])
+            ->get();
+
+        return success($items);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function precise(Request $request)
+    {
+        $key = $request->input('name');
+        $value = $request->input('value');
+        $item = Product::precise($key, $value);
+
+        return success($item);
     }
 
     /**
