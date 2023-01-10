@@ -22,6 +22,11 @@ class Delivery extends Model
     protected $casts = ['meta' => 'array'];
 
     /**
+     * @var string[]
+     */
+    protected $hidden = ['deleted_at'];
+
+    /**
      * @param $cost
      * @return void
      */

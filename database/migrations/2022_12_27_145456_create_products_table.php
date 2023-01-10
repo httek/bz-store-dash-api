@@ -15,13 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id')->nullable()->index()->comment('一级分类');
             $table->char('uuid', 80)->nullable()->unique();
             $table->char('name', 120)->nullable();
-            $table->json('images')->nullable()->comment('产品图片');
+            $table->json('covers')->nullable()->comment('产品图片');
             $table->string('description', 400)->nullable()->comment('产品描述');
             $table->unsignedTinyInteger('status')->default(1)->comment('0 待审 0 下架 1 上架');
             $table->unsignedBigInteger('sequence')->default(0);
+            $table->unsignedBigInteger('category_id')->nullable()->index()->comment('一级分类');
             $table->timestamps();
             $table->softDeletes();
         });

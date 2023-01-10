@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Http\Requests\Product\Store;
+use App\Http\Requests\Product\Search;
+use App\Http\Requests\Product\Update;
 
 class ProductController extends Controller
 {
@@ -11,9 +14,18 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Search $request)
     {
-        //
+        $where = $request->filter();
+
+        $items = Product::where($where)
+            ->with('category')
+            ->latest('sequence')
+            ->latest('status')
+            ->latest()
+            ->paginate($this->getPageSize());
+
+        return success($items);
     }
 
     /**
@@ -22,9 +34,15 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        //
+        if (Product::whereName($request->input('name'))->exists()) {
+            return fail('已存在该产品');
+        }
+
+        $item = Product::create($request->validated());
+
+        return success($item);
     }
 
     /**
@@ -35,7 +53,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Product::with('category')->findOrFail($id);
+
+        return success($item);
     }
 
     /**
@@ -45,9 +65,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Update $request, $id)
     {
-        //
+        $item = Product::with('category')->findOrFail($id);
+        if ($item->ifExists($request->input('name'))) {
+            return fail('已存在该产品');
+        }
+
+        $updated = $item->update($request->validated());
+
+        return $updated ? success($item) : fail();
     }
 
     /**
@@ -58,6 +85,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Product::with('category')->findOrFail($id);
+        if ($item->goods()->count()) {
+            return fail('存在商品关联，无法删除');
+        }
+
+        return $item->delete() ? success() : fail();
     }
 }
