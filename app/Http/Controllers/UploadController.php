@@ -15,14 +15,12 @@ class UploadController extends Controller
     public function upload(FileUploadRequest $request)
     {
         $disk = Storage::disk('7ox');
-        $uploadedFiles = $request->file('file');
-        $path = join('/', ['n4', md5($uploadedFiles->getBasename()) . '.' . $uploadedFiles->extension()]);
-        if (! $disk->put($path, $uploadedFiles->getContent())) {
-            return fail('Uploaded fail.');
+        $uploadedFile = $request->file('file');
+        $path = join('/', ['n4', md5($uploadedFile->getBasename()) . '.' . $uploadedFile->extension()]);
+        if (!$disk->put($path, $uploadedFile->getContent())) {
+            return fail('Upload fail.');
         }
 
-        return success(
-            $disk->downloadUrl($path, 'https')
-        );
+        return success($disk->downloadUrl($path, 'https'));
     }
 }

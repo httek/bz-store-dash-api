@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Delivery;
+namespace App\Http\Requests;
 
 use Anik\Form\FormRequest;
 
-class SearchRequest extends FormRequest
+class Login extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,16 @@ class SearchRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'type' => 'in:-1,0,1,2',
-            'name' => 'string'
+            'mobile' => 'required|string|min:11|max:11',
+            'password' => 'required|string|min:6|max:40'
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function account()
+    {
+        return $this->input('mobile');
     }
 }
