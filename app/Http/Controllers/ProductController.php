@@ -18,7 +18,6 @@ class ProductController extends Controller
     public function index(Search $request)
     {
         $where = $request->filter();
-
         $items = Product::where($where)
             ->with('category')
             ->latest('sequence')
@@ -75,7 +74,8 @@ class ProductController extends Controller
      */
     public function store(Store $request)
     {
-        if (Product::whereName($request->input('name'))->exists()) {
+        $name = $request->input('name');
+        if (Product::whereName($name)->exists()) {
             return fail('已存在该产品');
         }
 
