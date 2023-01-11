@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Brand\Store;
+use App\Http\Requests\Goods\Update;
+use App\Models\Goods;
 use Illuminate\Http\Request;
 
 class GoodsController extends Controller
@@ -22,9 +25,11 @@ class GoodsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
-        //
+        $item = Goods::create($request->validated());
+
+        return success($item);
     }
 
     /**
@@ -35,7 +40,9 @@ class GoodsController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Goods::findOrFail($id);
+
+        return success($item);
     }
 
     /**
@@ -45,9 +52,12 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Update $request, $id)
     {
-        //
+        $item = Goods::findOrFail($id);
+        $item->update($request->validated());
+
+        return success($item);
     }
 
     /**
@@ -58,6 +68,8 @@ class GoodsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Goods::findOrFail($id);
+
+        return $item->delete() ? success() : fail();
     }
 }

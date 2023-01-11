@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\PreciseSearch;
 use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Goods extends Model
 {
-    use SoftDeletes, SerializeDate;
+    use SoftDeletes, SerializeDate, PreciseSearch;
+
     /**
      * @var string[]
      */
@@ -18,10 +20,20 @@ class Goods extends Model
      * @var string[]
      */
     protected $casts = [
-        'images' => 'array',
-        'details' => 'array',
-        'tags' => 'array'
+        'covers' => 'array',
+        'detail' => 'array',
+        'tags' => 'array',
     ];
+
+    /**
+     * @var string[]
+     */
+    protected $hidden = ['deleted_at'];
+
+    public function scopeSale($query)
+    {
+        return $query->where('status', 1);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -60,7 +72,7 @@ class Goods extends Model
      */
     public function delivery()
     {
-        return $this->hasOne(DeliveryTemplate::class, 'id', 'delivery_template_id');
+        return $this->hasOne(Delivery::class, 'id', 'delivery_id');
     }
 
     /**

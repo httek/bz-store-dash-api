@@ -124,7 +124,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $item = Product::with('category')->findOrFail($id);
+        $item = Product::findOrFail($id);
         if ($item->goods()->count()) {
             return fail('存在商品关联，无法删除');
         }
