@@ -58,10 +58,10 @@ class DeliveryController extends Controller
      */
     public function precise(Request $request)
     {
-        $key = $request->input('name');
-        $item = Delivery::precise($key, $request->input('value'));
+        $key = $request->input('key');
+        $items = Delivery::precise($key, $request->input('value'));
 
-        return success($item);
+        return success($items);
     }
 
     /**

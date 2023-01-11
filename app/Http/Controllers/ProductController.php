@@ -59,11 +59,11 @@ class ProductController extends Controller
      */
     public function precise(Request $request)
     {
-        $key = $request->input('name');
+        $key = $request->input('key');
         $value = $request->input('value');
-        $item = Product::precise($key, $value);
+        $items = Product::precise($key, $value);
 
-        return success($item);
+        return success($items);
     }
 
     /**

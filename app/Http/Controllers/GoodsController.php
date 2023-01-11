@@ -6,6 +6,7 @@ use App\Http\Requests\Goods\Search;
 use App\Models\Goods;
 use App\Http\Requests\Goods\Store;
 use App\Http\Requests\Goods\Update;
+use Illuminate\Http\Request;
 
 class GoodsController extends Controller
 {
@@ -16,11 +17,57 @@ class GoodsController extends Controller
      */
     public function index(Search $search)
     {
-        $where = []; // TODO: Goods
+        $where = $search->filter();
         $items = Goods::with(['product', 'store', 'category', 'brand'])
             ->where($where)
             ->latest('sequence')
             ->paginate($this->getPageSize());
+
+        return success($items);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function select(Request $request)
+    {
+        $where = [];
+        if ($name = $request->input('name')) {
+            $where[] = ['name', 'like', "%{$name}%"];
+        }
+
+        $items = Goods::with(['product', 'store', 'category', 'brand'])
+            ->where($where)
+            ->latest('sequence')
+            ->limit(20)
+            ->get();
+
+        if ($request->has('id')) {
+            $idArr = explode(',', $request->input('id'));
+            $ids = array_diff($idArr, $items->pluck('id')->toArray());
+            $appends = Goods::with(['product', 'store', 'category', 'brand'])->find($ids);
+            $appends && $items->push(...$appends);
+        }
+
+        return success($items);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function precise(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'value' => 'required'
+        ]);
+
+        $name = $request->input('name');
+        $value = $request->input('value');
+        $items = Goods::precise($name, $value);
 
         return success($items);
     }

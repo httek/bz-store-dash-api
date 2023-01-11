@@ -18,6 +18,6 @@ trait PreciseSearch
         }
 
 
-        return static::where($key, $value)->first();
+        return static::where($key, $value)->get();
     }
 }
