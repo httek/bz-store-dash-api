@@ -13,6 +13,14 @@
 |
 */
 
+// Auth
+$router->group(['prefix' => 'auth'], function () use ($router) {
+    $router->post('login', 'AuthController@login');
+    $router->group(['middleware' => 'auth'], function () use ($router) {
+        $router->get('session', 'AuthController@session');
+    });
+});
+
 // Upload
 $router->post('upload', 'UploadController@upload');
 

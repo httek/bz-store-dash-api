@@ -41,14 +41,11 @@ class AuthController extends Controller
      */
     public function session(Request $request)
     {
-        // profile
-        // permissions
-        // menus
-        // others
-
         /** @var Admin $profile */
         $profile = $request->user();
+        $permissions = [];
+        $menus = [];
 
-        return success(compact('profile'));
+        return success(compact('profile', 'permissions', 'menus'));
     }
 }
