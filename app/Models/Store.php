@@ -58,7 +58,7 @@ class Store extends Model
      */
     public function getCashMetaAttribute($value)
     {
-        if (is_null($value)) return $value;
+        if (is_null($value)) return new \stdClass;
 
         return json_decode($value);
     }

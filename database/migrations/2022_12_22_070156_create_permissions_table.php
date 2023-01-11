@@ -15,12 +15,12 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent')->nullable();
-            $table->unsignedTinyInteger('type')->default(1)->comment('0 directory 1 menu 2 button');
-            $table->char('name', 80)->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable()->index();
+            $table->unsignedTinyInteger('type')->default(1)->comment('0 目录 1 菜单 2 按钮');
+            $table->char('title', 80)->nullable();
             $table->string('icon', 400)->nullable();
             $table->string('path', 400)->nullable();
-            $table->char('title', 80)->nullable();
+            $table->char('slug', 160)->nullable()->index()->comment('权限标识');
             $table->unsignedTinyInteger('status')->default(1);
             $table->char('component', 160)->nullable();
             $table->json('meta')->nullable();

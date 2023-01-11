@@ -24,7 +24,7 @@ class Login extends FormRequest
     protected function rules(): array
     {
         return [
-            'mobile' => 'required|string|min:11|max:11',
+            'mobile' => 'required|min:11|max:11',
             'password' => 'required|string|min:6|max:40'
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Http\Requests\Login;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -44,7 +45,9 @@ class AuthController extends Controller
         /** @var Admin $profile */
         $profile = $request->user();
         $permissions = [];
-        $menus = [];
+        $menus = Permission::with('children')
+            ->whereNull('parent_id')
+            ->get();
 
         return success(compact('profile', 'permissions', 'menus'));
     }

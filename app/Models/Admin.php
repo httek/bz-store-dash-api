@@ -34,7 +34,7 @@ class Admin extends Model
      */
     public function disabled(): bool
     {
-        return $this->getAttributeValue('') == 0;
+        return $this->getAttributeValue('status') == 0;
     }
 
     /**
