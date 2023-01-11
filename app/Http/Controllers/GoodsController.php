@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Brand\Store;
-use App\Http\Requests\Goods\Update;
+use App\Http\Requests\Goods\Search;
 use App\Models\Goods;
-use Illuminate\Http\Request;
+use App\Http\Requests\Goods\Store;
+use App\Http\Requests\Goods\Update;
 
 class GoodsController extends Controller
 {
@@ -14,9 +14,15 @@ class GoodsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Search $search)
     {
-        //
+        $where = []; // TODO: Goods
+        $items = Goods::with(['product', 'store', 'category', 'brand'])
+            ->where($where)
+            ->latest('sequence')
+            ->paginate($this->getPageSize());
+
+        return success($items);
     }
 
     /**

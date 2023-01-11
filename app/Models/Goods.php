@@ -48,7 +48,8 @@ class Goods extends Model
      */
     public function product()
     {
-        return $this->hasOne(Product::class, 'id', 'product_id');
+        return $this->hasOne(Product::class, 'id', 'product_id')
+            ->select(['id', 'name', 'covers']);
     }
 
     /**
@@ -56,7 +57,8 @@ class Goods extends Model
      */
     public function store()
     {
-        return $this->hasOne(Store::class, 'id', 'store_id');
+        return $this->hasOne(Store::class, 'id', 'store_id')
+            ->select(['id', 'name', 'cover']);
     }
 
     /**
@@ -64,7 +66,8 @@ class Goods extends Model
      */
     public function category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->hasOne(Category::class, 'id', 'category_id')
+            ->select(['id', 'name', 'cover']);
     }
 
     /**
@@ -80,6 +83,43 @@ class Goods extends Model
      */
     public function brand()
     {
-        return $this->hasOne(Brand::class, 'id', 'brand_id');
+        return $this->hasOne(Brand::class, 'id', 'brand_id')
+            ->select(['id', 'name', 'cover']);
+    }
+
+    /**
+     * @param $value
+     * @return void
+     */
+    public function setSalePriceAttribute($value)
+    {
+        $value && $this->attributes['sale_price'] = intval($value * 100);
+    }
+
+    /**
+     * @param $value
+     * @return float|int
+     */
+    public function getSalePriceAttribute($value)
+    {
+        return $value ? $value / 100 : $value;
+    }
+
+    /**
+     * @param $value
+     * @return void
+     */
+    public function setOriginPriceAttribute($value)
+    {
+        $value && $this->attributes['origin_price'] = intval($value * 100);
+    }
+
+    /**
+     * @param $value
+     * @return float|int
+     */
+    public function getOriginPriceAttribute($value)
+    {
+        return $value ? $value / 100 : $value;
     }
 }
