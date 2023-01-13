@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Http\Endpoints\Controller;
-use App\Http\Requests\Admin\Search;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use App\Http\Requests\Admin\Store;
+use App\Http\Requests\Admin\Update;
+use App\Http\Requests\Admin\Search;
 
 class AdminController extends Controller
 {
@@ -16,13 +16,60 @@ class AdminController extends Controller
      */
     public function index(Search $request)
     {
-        $items = Admin::where($request->filter())
-            ->whereStatus(1)
+        $items = Admin::with(['role'])
+            ->where($request->filter())
             ->paginate($this->getPageSize());
 
         return success($items);
     }
 
+    /**
+     * @param Store $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function store(Store $request)
+    {
+        $item = Admin::create($request->validated());
+
+        return success($item);
+    }
+
+    /**
+     * @param Update $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function update(Update $request, int $id)
+    {
+        $item = Admin::findOrFail($id);
+        $item->update($request->validated());
+
+        return success($item);
+    }
+
+    /**
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function show(int $id)
+    {
+        $item = Admin::with(['role'])->findOrFail($id);
+
+        return success($item);
+    }
+
+    /**
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function destroy(int $id)
+    {
+        $item = Admin::with(['role'])->findOrFail($id);
+
+        // check refs
+        // flush sessions.
+        return $item->delete() ? success() : fail();
+    }
     /**
      * Select admins with type.
      *
@@ -32,12 +79,13 @@ class AdminController extends Controller
     public function select(Request $request)
     {
         // 1 admin, 2 store owner
-        $where = ['type' => $request->input('type', 1)];
-        $key = $request->input('key');
-        $value = $request->input('value');
-        $table = (new Admin)->getTable();
-        if ($key && $value && Schema::hasColumn($table, $key)) {
-            $where[$key] = $value;
+        $this->validate($request, ['type' => 'in:-1,1,2']);
+        if (($type = $request->input('type', 1)) >= 0) {
+            $where['type'] = $type;
+        }
+
+        if ($name = $request->input('name')) {
+            $where[] = ['name', 'like', "%{$name}%"];
         }
 
         $items = Admin::where($where)->get();

@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\PreciseSearch;
+use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
+    use SerializeDate, PreciseSearch;
+
     /**
      * @var string[]
      */
@@ -14,7 +18,7 @@ class Permission extends Model
     /**
      * @var string[]
      */
-    protected $hidden = ['id', 'updated_at', 'created_at'];
+    protected $hidden = ['updated_at', 'created_at'];
 
     /**
      * @var string[]

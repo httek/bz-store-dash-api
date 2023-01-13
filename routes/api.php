@@ -21,17 +21,28 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     });
 });
 
-$router->group(['middleware' => 'auth'], function () use ($router) {
+$router->group(['middleware' => null], function () use ($router) {
     // Upload
     $router->post('upload', 'UploadController@upload');
 
+    // Roles
+    $router->group(['prefix' => 'roles'], function () use ($router) {
+        $router->get('', 'RoleController@index');
+        $router->get('{id:[\d]+}', 'RoleController@show');
+        $router->get('precise', 'RoleController@precise');
+        $router->post('', 'RoleController@store');
+        $router->post('{id:[\d]+}', 'RoleController@update');
+        $router->delete('{id:[\d]+}', 'RoleController@destroy');
+    });
+
+    // Permissions
     $router->group(['prefix' => 'permissions'], function () use ($router) {
-        $router->get('', 'PermisionController@index');
-        $router->get('{id:[\d]+}', 'PermisionController@show');
-        $router->get('precise', 'PermisionController@precise');
-        $router->post('', 'PermisionController@store');
-        $router->post('{id:[\d]+}', 'PermisionController@update');
-        $router->delete('{id:[\d]+}', 'PermisionController@destroy');
+        $router->get('', 'PermissionController@index');
+        $router->get('{id:[\d]+}', 'PermissionController@show');
+        $router->get('precise', 'PermissionController@precise');
+        $router->post('', 'PermissionController@store');
+        $router->post('{id:[\d]+}', 'PermissionController@update');
+        $router->delete('{id:[\d]+}', 'PermissionController@destroy');
     });
 
     // Admins
