@@ -24,6 +24,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedTinyInteger('status')->default(1);
             $table->char('component', 160)->nullable();
             $table->json('meta')->nullable();
+            $table->integer('sequence')->default(0);
             $table->timestamps();
         });
     }
