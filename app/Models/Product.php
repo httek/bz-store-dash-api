@@ -20,7 +20,7 @@ class Product extends Model
     /**
      * @var string[]
      */
-    protected $casts = ['covers' => 'array'];
+    protected $casts = ['covers' => 'json'];
 
     /**
      * @var string[]
