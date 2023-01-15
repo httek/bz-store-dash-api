@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Goods;
 
 use Anik\Form\FormRequest;
+use App\Models\Brand;
+use App\Models\Product;
 
 class Store extends FormRequest
 {
@@ -25,7 +27,7 @@ class Store extends FormRequest
     {
         return [
             'store_id' => ['required', 'integer', 'min:0'],
-            'brand_id' => ['required', 'integer', 'min:0'],
+            'brand_id' => ['nullable', 'integer', 'min:0'],
             'product_id' => ['required', 'integer', 'min:0'],
             'category_id' => ['required', 'integer', 'min:0'],
             'delivery_id' => ['nullable', 'integer', 'min:0'],
@@ -49,5 +51,16 @@ class Store extends FormRequest
             'free_shipping' => 'nullable|in:0,1',
             'sequence' => 'integer|min:0|max:99999999',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function validated(): array
+    {
+        $validated = parent::validated();
+        $validated['free_shipping'] = ($validated['delivery_id'] ?? 0) == 0;
+
+        return $validated;
     }
 }

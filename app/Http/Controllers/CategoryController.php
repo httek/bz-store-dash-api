@@ -58,7 +58,7 @@ class CategoryController extends Controller
     public function select(Request $request)
     {
         $where = [];
-        if ($type = $request->input('type')) {
+        if ($type = $request->input('type', 1)) {
             $where['type'] = $type;
         }
 

@@ -93,7 +93,7 @@ class GoodsController extends Controller
      */
     public function show($id)
     {
-        $item = Goods::findOrFail($id);
+        $item = Goods::with(['product', 'category', 'store', 'brand', 'delivery'])->findOrFail($id);
 
         return success($item);
     }
