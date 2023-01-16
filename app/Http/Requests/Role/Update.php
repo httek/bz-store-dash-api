@@ -13,7 +13,7 @@ class Update extends FormRequest
      */
     protected function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class Update extends FormRequest
     protected function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'status' => 'in:0,1',
+            'description' => 'nullable|string|max:200'
         ];
     }
 }

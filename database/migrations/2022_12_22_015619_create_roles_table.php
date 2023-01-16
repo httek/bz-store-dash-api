@@ -15,11 +15,10 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->char('name', 60)->unique();
-            $table->string('title', 200)->nullable();
+            $table->string('description', 200)->nullable();
             $table->unsignedTinyInteger('status')->default(1);
-            $table->foreign('parent')->references('id')->on('roles');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
         });

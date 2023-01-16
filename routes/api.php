@@ -31,6 +31,7 @@ $router->group(['middleware' => null], function () use ($router) {
         $router->get('{id:[\d]+}', 'RoleController@show');
         $router->get('precise', 'RoleController@precise');
         $router->post('', 'RoleController@store');
+        $router->post('{id:[\d]+}/permissions', 'RoleController@attachPermission');
         $router->post('{id:[\d]+}', 'RoleController@update');
         $router->delete('{id:[\d]+}', 'RoleController@destroy');
     });
@@ -54,6 +55,17 @@ $router->group(['middleware' => null], function () use ($router) {
         $router->post('', 'AdminController@store');
         $router->post('{id:[\d]+}', 'AdminController@update');
         $router->delete('{id:[\d]+}', 'AdminController@destroy');
+    });
+
+    // Category
+    $router->group(['prefix' => 'tags'], function () use ($router) {
+        $router->get('', 'TagController@index');
+        $router->get('{id:[\d]+}', 'TagController@show');
+        $router->get('select', 'TagController@select');
+        $router->get('precise', 'TagController@precise');
+        $router->post('', 'TagController@store');
+        $router->post('{id:[\d]+}', 'TagController@update');
+        $router->delete('{id:[\d]+}', 'TagController@destroy');
     });
 
     // Category

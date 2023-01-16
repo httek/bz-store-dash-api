@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PermissionRole;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\Role\Store;
@@ -16,7 +17,16 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Role::latest()
+        $where = [];
+        if ($title = $request->input('name')) {
+            $where[]= ['name', 'like', "%{$title}%"];
+        }
+        if (($status = $request->input('status', -1)) >= 0) {
+            $where['status'] = $status;
+        }
+
+        $items = Role::oldest()
+            ->where($where)
             ->paginate($this->getPageSize());
 
         return success($items);
@@ -30,7 +40,7 @@ class RoleController extends Controller
     public function precise(Request $request)
     {
         $this->validate($request, [
-            'key' => 'required', 'value' => 'validate'
+            'key' => 'required', 'value' => 'required'
         ]);
 
         $key = $request->input('key');
@@ -60,9 +70,36 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $item = Role::with('permissions')->findOrFail($id);
+        $item = Role::findOrFail($id);
+        $item->permissionIds = PermissionRole::where('role_id', $item->id)
+            ->pluck('permission_id');
 
         return success($item);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function attachPermission(Request $request, int $id)
+    {
+        $item = Role::findOrFail($id);
+        $this->validate($request, [
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'integer'
+        ]);
+
+        $permissions = [];
+        foreach ($request->input('permissions') as $id) {
+            $permissions[] = ['role_id' => $item->id, 'permission_id' => $id];
+        }
+
+        PermissionRole::where('role_id', $item->id)->delete();
+        $permissions && PermissionRole::insert($permissions);
+
+        return success();
     }
 
     /**

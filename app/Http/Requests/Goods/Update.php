@@ -25,11 +25,11 @@ class Update extends FormRequest
     {
         return [
             'brand_id' => ['nullable', 'integer', 'min:0'],
-            'product_id' => ['required', 'integer', 'min:0'],
-            'category_id' => ['required', 'integer', 'min:0'],
+            'product_id' => ['nullable', 'integer', 'min:0'],
+            'category_id' => ['nullable', 'integer', 'min:0'],
             'delivery_id' => ['nullable', 'integer', 'min:0'],
-            'name' => 'required|string|max:80',
-            'covers' => 'required|array',
+            'name' => 'nullable|string|max:80',
+            'covers' => 'nullable|array',
             'covers.*' => 'url',
             'badge' => 'string|max:10',
             'slogan' => 'string|max:80',

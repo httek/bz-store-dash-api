@@ -30,6 +30,23 @@ class Goods extends Model
      */
     protected $hidden = ['deleted_at'];
 
+    /**
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(fn(Goods $goods) => $goods->uuid = strtoupper(uniqid(date('y'))));
+        static::updating(fn(Goods $goods) => !$goods->uuid && $goods->uuid = strtoupper(uniqid(date('y'))));
+
+
+    }
+
+
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeSale($query)
     {
         return $query->where('status', 1);

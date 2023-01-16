@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Permission\Store;
-use App\Http\Requests\Permission\Update;
-use App\Models\Permission;
+use App\Models\Tag;
 use Illuminate\Http\Request;
-class PermissionController extends Controller
+
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +15,9 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         $where = [];
-        if ($name = $request->input('name')) {
-            $where[] = ['title', 'like', "%{$name}%"];
-        }
-
-        $items = Permission::with('children')
-            ->where($where)
+        $items = Tag::where($where)
             ->latest('sequence')
-            ->whereNull('parent_id')
-            ->get();
+            ->paginate($this->getPageSize());
 
         return success($items);
     }
@@ -32,19 +25,26 @@ class PermissionController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function select(Request $request)
+    {
+        $items = Tag::latest('sequence')->select(['id', 'name', 'cover'])->get();
+
+        return success($items);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function precise(Request $request)
     {
-        $this->validate($request, [
-            'key' => 'required', 'value' => 'validate'
-        ]);
-
         $key = $request->input('key');
         $value = $request->input('value');
 
-        return success(Permission::precise($key, $value));
+        return success(Tag::precise($key, $value));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -52,9 +52,15 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Store $request)
+    public function store(Request $request)
     {
-        $item = Permission::create($request->validated());
+        $validated = $this->validate($request, [
+            'name' => 'required',
+            'cover' => 'nullable|url',
+            'sequence' => 'nullable|integer'
+        ]);
+
+        $item = Tag::create($validated);
 
         return success($item);
     }
@@ -67,7 +73,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        $item = Permission::with('children')->findOrFail($id);
+        $item = Tag::findOrFail($id);
 
         return success($item);
     }
@@ -79,10 +85,15 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Update $request, $id)
+    public function update(Request $request, $id)
     {
-        $item = Permission::findOrFail($id);
-        $item->update($request->validated());
+        $item = Tag::findOrFail($id);
+        $validated = $this->validate($request, [
+            'name' => 'required',
+            'cover' => 'nullable|url',
+            'sequence' => 'nullable|integer'
+        ]);
+        $item->update($validated);
 
         return success($item);
     }
@@ -95,11 +106,10 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $item = Permission::findOrFail($id);
-        if ($item->children()->count()) {
-            return fail('存在子级权限，无法删除');
-        }
+        $item = Tag::findOrFail($id);
 
-        return $item->delete() ? success() : fail();
+        $item->delete();
+
+        return success();
     }
 }
