@@ -134,4 +134,14 @@ $router->group(['middleware' => null], function () use ($router) {
         $router->delete('{id:[\d]+}', 'GoodsController@destroy');
     });
 
+    // Payments
+    $router->group(['prefix' => 'payments'], function () use ($router) {
+        $router->get('', 'PaymentController@index');
+        $router->get('{id:[\d]+}', 'PaymentController@show');
+        $router->get('precise', 'PaymentController@precise');
+        $router->post('', 'PaymentController@store');
+        $router->post('{id:[\d]+}', 'PaymentController@update');
+        $router->delete('{id:[\d]+}', 'PaymentController@destroy');
+    });
+
 });

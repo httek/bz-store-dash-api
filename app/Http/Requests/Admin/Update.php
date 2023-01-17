@@ -13,7 +13,7 @@ class Update extends FormRequest
      */
     protected function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class Update extends FormRequest
     protected function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:80',
+            'mobile' => 'required|string|min:11|max:11',
+            'password' => 'nullable|string|min:6|max:80',
+            'status' => 'in:0,1',
+            'avatar' => 'nullable|url',
+            'role_id' => 'nullable|integer',
+            'type' => 'in:1,2'
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Permission\Store;
 use App\Http\Requests\Permission\Update;
 use App\Models\Permission;
+use App\Models\PermissionRole;
 use Illuminate\Http\Request;
 class PermissionController extends Controller
 {
@@ -99,6 +100,8 @@ class PermissionController extends Controller
         if ($item->children()->count()) {
             return fail('存在子级权限，无法删除');
         }
+
+        PermissionRole::where('permission_id', $item->id)->delete();
 
         return $item->delete() ? success() : fail();
     }

@@ -21,13 +21,30 @@ class Admin extends Model
      */
     protected $hidden = ['password', 'created_by'];
 
+
+
+    /**
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function (Admin $admin) {
+            $admin->password = Hash::make($admin->password);
+        });
+
+        static::updating(function (Admin $admin) {
+            $admin->password && ($admin->password = Hash::make($admin->password));
+        });
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function role()
     {
         return $this->hasOne(Role::class, 'id', 'role_id')
-            ->select(['id', 'name', 'title']);
+            ->select(['id', 'name']);
     }
 
     /**

@@ -104,13 +104,6 @@ $app->bind(
 */
 
 $app->router->group([
-    'namespace' => 'App\Http\Endpoints',
-    'prefix' => 'v1'
-], function ($router) {
-    require __DIR__ . '/../routes/web.php';
-});
-
-$app->router->group([
     'prefix' => 'v2',
     'namespace' => 'App\Http\Controllers'
 ], function ($router) {
