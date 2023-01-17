@@ -10,9 +10,11 @@ class AdminService extends Service
      * @param int $id
      * @return Admin|null
      */
-    public static function findById(int $id): ?Admin
+    public static function findById(int $id, array $where = []): ?Admin
     {
-        return Admin::find($id);
+        $where = array_merge($where, ['id' => $id]);
+
+        return Admin::where($where)->first();
     }
 
     /**

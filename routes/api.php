@@ -21,7 +21,7 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     });
 });
 
-$router->group(['middleware' => null], function () use ($router) {
+$router->group(['middleware' => 'auth'], function () use ($router) {
     // Upload
     $router->post('upload', 'UploadController@upload');
 
@@ -30,6 +30,7 @@ $router->group(['middleware' => null], function () use ($router) {
         $router->get('', 'RoleController@index');
         $router->get('{id:[\d]+}', 'RoleController@show');
         $router->get('precise', 'RoleController@precise');
+        $router->get('select', 'RoleController@select');
         $router->post('', 'RoleController@store');
         $router->post('{id:[\d]+}/permissions', 'RoleController@attachPermission');
         $router->post('{id:[\d]+}', 'RoleController@update');

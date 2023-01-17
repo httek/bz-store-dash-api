@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
+use App\Http\Requests\Payment\Search;
 use App\Http\Requests\Payment\Store;
 use App\Http\Requests\Payment\Update;
-use App\Models\Payment;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -14,7 +14,7 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Search $request)
     {
         $where = [];
         if (($status = $request->input('status', -1)) >= 0) {

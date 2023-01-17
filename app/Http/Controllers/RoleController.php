@@ -35,6 +35,18 @@ class RoleController extends Controller
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function select(Request $request)
+    {
+        $items = Role::where('id', '>', 1)
+            ->select(['id', 'name'])
+            ->get();
+
+        return success($items);
+    }
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function precise(Request $request)

@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             if ($token && ($jti = TokenService::getPayloads($token, 'jti'))) {
-                return AdminService::findById($jti);
+                return AdminService::findById($jti, ['status' => 1]);
             }
         });
     }

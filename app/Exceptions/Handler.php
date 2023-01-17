@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Handlers\Authorization;
 use App\Exceptions\Handlers\NotFound;
 use App\Exceptions\Handlers\Validation;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -28,7 +29,8 @@ class Handler extends ExceptionHandler
 
     protected $customHandlers = [
         ValidationException::class => Validation::class,
-        ModelNotFoundException::class => NotFound::class
+        ModelNotFoundException::class => NotFound::class,
+        AuthorizationException::class => Authorization::class,
     ];
 
     /**

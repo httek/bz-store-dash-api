@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Http\Requests\Login;
 use App\Models\Permission;
+use App\Models\PermissionRole;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -44,8 +45,14 @@ class AuthController extends Controller
     {
         /** @var Admin $profile */
         $profile = $request->user();
-        $permissions = [];
-        $menus = Permission::with('children')
+        $permissionIds = PermissionRole::where('role_id', $profile->role_id ?? 0)->pluck('permission_id')->toArray();
+        $permissions = Permission::whereIn('id', $permissionIds)
+            ->pluck('slug')
+            ->filter()
+            ->toArray();
+
+        $menus = Permission::with(['children' => fn($query) => $query->whereIn('id', $permissionIds)])
+            ->whereIn('id', $permissionIds)
             ->whereNull('parent_id')
             ->get();
 
