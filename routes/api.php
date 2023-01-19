@@ -21,7 +21,7 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     });
 });
 
-$router->group(['middleware' => 'auth'], function () use ($router) {
+$router->group(['middleware' => null], function () use ($router) {
     // Upload
     $router->post('upload', 'UploadController@upload');
 
@@ -143,6 +143,26 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('', 'PaymentController@store');
         $router->post('{id:[\d]+}', 'PaymentController@update');
         $router->delete('{id:[\d]+}', 'PaymentController@destroy');
+    });
+
+    // Block
+    $router->group(['prefix' => 'blocks'], function () use ($router) {
+        $router->get('', 'BlockController@index');
+        $router->get('{id:[\d]+}', 'BlockController@show');
+        $router->get('precise', 'BlockController@precise');
+        $router->post('', 'BlockController@store');
+        $router->post('{id:[\d]+}', 'BlockController@update');
+        $router->delete('{id:[\d]+}', 'BlockController@destroy');
+    });
+
+    // Swiper
+    $router->group(['prefix' => 'swipers'], function () use ($router) {
+        $router->get('', 'SwiperController@index');
+        $router->get('{id:[\d]+}', 'SwiperController@show');
+        $router->get('precise', 'SwiperController@precise');
+        $router->post('', 'SwiperController@store');
+        $router->post('{id:[\d]+}', 'SwiperController@update');
+        $router->delete('{id:[\d]+}', 'SwiperController@destroy');
     });
 
 });

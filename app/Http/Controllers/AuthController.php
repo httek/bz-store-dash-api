@@ -51,8 +51,12 @@ class AuthController extends Controller
             ->filter()
             ->toArray();
 
-        $menus = Permission::with(['children' => fn($query) => $query->whereIn('id', $permissionIds)])
-            ->whereIn('id', $permissionIds)
+//        $menus = Permission::with(['children' => fn($query) => $query->whereIn('id', $permissionIds)])
+//            ->whereIn('id', $permissionIds)
+//            ->whereNull('parent_id')
+//            ->get();
+
+        $menus = Permission::with(['children'])
             ->whereNull('parent_id')
             ->get();
 

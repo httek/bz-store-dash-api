@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Store;
 use App\Http\Requests\Admin\Update;
 use App\Http\Requests\Admin\Search;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -29,7 +30,9 @@ class AdminController extends Controller
      */
     public function store(Store $request)
     {
-        $item = Admin::create($request->validated());
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        $item = Admin::create($data);
 
         return success($item);
     }
@@ -42,7 +45,10 @@ class AdminController extends Controller
     public function update(Update $request, int $id)
     {
         $item = Admin::findOrFail($id);
-        $item->update($request->validated());
+        $upData = $request->validated();
+        if (!empty($upData['password'])) $upData['password'] = Hash::make($item['password']);
+
+        $item->update($upData);
 
         return success($item);
     }
