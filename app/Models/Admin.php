@@ -23,6 +23,14 @@ class Admin extends Model
 
 
     /**
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->getAttributeValue('type') == 0;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function role()

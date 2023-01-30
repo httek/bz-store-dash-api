@@ -28,7 +28,7 @@ class AuthController extends Controller
             return fail('您已被禁止登录');
         }
 
-        if (! $account->validatePasswd($login->input('password'))) {
+        if (!$account->validatePasswd($login->input('password'))) {
             return fail('账号或密码错误 [A02]');
         }
 
@@ -51,14 +51,16 @@ class AuthController extends Controller
             ->filter()
             ->toArray();
 
-//        $menus = Permission::with(['children' => fn($query) => $query->whereIn('id', $permissionIds)])
-//            ->whereIn('id', $permissionIds)
-//            ->whereNull('parent_id')
-//            ->get();
-
-        $menus = Permission::with(['children'])
-            ->whereNull('parent_id')
-            ->get();
+        if ($profile->isSuperAdmin()) {
+            $menus = Permission::with(['children'])
+                ->whereNull('parent_id')
+                ->get();
+        } else {
+            $menus = Permission::with(['children' => fn($query) => $query->whereIn('id', $permissionIds)])
+                ->whereIn('id', $permissionIds)
+                ->whereNull('parent_id')
+                ->get();
+        }
 
         return success(compact('profile', 'permissions', 'menus'));
     }
