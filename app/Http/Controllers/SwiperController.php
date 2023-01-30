@@ -20,7 +20,6 @@ class SwiperController extends Controller
     public function index(Search $search)
     {
         $items = Swiper::where($search->filter())
-            ->latest('sequence')
             ->paginate($this->getPageSize());
 
         return success($items);
@@ -34,10 +33,6 @@ class SwiperController extends Controller
      */
     public function store(Store $request)
     {
-        if (Swiper::whereName($request->input('name'))->exists()) {
-            return fail('名称已存在');
-        }
-
         $item = Swiper::create($request->validated());
 
         return success($item);
@@ -51,7 +46,6 @@ class SwiperController extends Controller
     {
         $where = [];
         $items = Swiper::where($where)
-            ->latest('sequence')
             ->get();
 
         return success($items);
@@ -67,7 +61,7 @@ class SwiperController extends Controller
         $precise = $this->validate($request, ['key' => 'required', 'value' => 'required']);
         extract($precise);
 
-        return success(Swiper::precise($key, $value));
+        return success(Swiper::precise($key, $value, $request->input('ignore', 0)));
     }
 
     /**
@@ -93,12 +87,6 @@ class SwiperController extends Controller
     public function update(Update $request, $id)
     {
         $item = Swiper::findOrFail($id);
-        $name = $request->input('name');
-        if ($name && $name != $item->name) {
-            if (Swiper::whereName($name)->exists()) {
-                return fail('名称已存在');
-            }
-        }
 
         $item->update($request->validated());
 

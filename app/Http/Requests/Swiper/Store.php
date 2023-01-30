@@ -24,13 +24,19 @@ class Store extends FormRequest
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:2'],
-            'image' => ['url'],
-            'sequence' => ['nullable', 'numeric', 'min:0'],
+            'position' => ['in:0,1'],
             'status' => ['in:0,1'],
-            'meta' => 'array',
+            'style' => 'in:fraction,dots,dots-bar,controls',
             'visible_begin' => 'date_format:Y-m-d H:i:s',
             'visible_ending' => 'date_format:Y-m-d H:i:s',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function validated(): array
+    {
+        return array_filter(parent::validated(), fn($value) => $value != '' || $value != null);
     }
 }

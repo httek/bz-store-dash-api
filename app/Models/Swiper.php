@@ -18,5 +18,5 @@ class Swiper extends Model
     /**
      * @var string[]
      */
-    protected $casts = ['meta' => 'json'];
+    protected $casts = ['items' => 'array'];
 }

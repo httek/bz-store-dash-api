@@ -15,14 +15,12 @@ class CreateSwipersTable extends Migration
     {
         Schema::create('swipers', function (Blueprint $table) {
             $table->id();
-            $table->char('name', 120)->nullable();
-            $table->string('image', 400)->nullable();
+            $table->unsignedTinyInteger('position')->default(0);
             $table->unsignedTinyInteger('status')->default(1);
+            $table->string('style', 400)->nullable();
             $table->timestamp('visible_begin')->nullable();
             $table->timestamp('visible_ending')->nullable();
-            $table->json('meta')->nullable();
-            $table->integer('sequence')->nullable();
-            $table->unsignedTinyInteger('position')->default(0);
+            $table->json('items')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
         });
