@@ -165,14 +165,13 @@ $router->group(['middleware' => null], function () use ($router) {
         $router->delete('{id:[\d]+}', 'SwiperController@destroy');
     });
 
-    // Swiper
+    // Config
     $router->group(['prefix' => 'configs'], function () use ($router) {
         $router->get('', 'ConfigController@index');
-        $router->get('{id:[\d]+}', 'ConfigController@show');
-        $router->get('precise', 'ConfigController@precise');
+        $router->get('{key}', 'ConfigController@show');
         $router->post('', 'ConfigController@store');
-        $router->post('{id:[\d]+}', 'ConfigController@update');
-        $router->delete('{id:[\d]+}', 'ConfigController@destroy');
+        $router->post('{key}', 'ConfigController@update');
+        $router->delete('{key}', 'ConfigController@destroy');
     });
 
 });
