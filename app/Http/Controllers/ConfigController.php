@@ -20,7 +20,13 @@ class ConfigController extends Controller
             $where['group'] = $group;
         }
 
-        $items = Config::where($where)->get();
+        $items = Config::where($where)
+            ->where(function ($query) use ($request) {
+                if ($keys = $request->input('keys', [])) {
+                    $query->whereIn('key', $keys);
+                }
+            })
+            ->get();
 
         return success($items);
     }
