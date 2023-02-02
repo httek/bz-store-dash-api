@@ -80,10 +80,9 @@ class ConfigController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(string $key)
+    public function destroy(int $id)
     {
-        Config::where('key', $key)->delete();
-
-        return success();
+        return Config::where('id', $id)->delete()
+            ? success() : fail();
     }
 }

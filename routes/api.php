@@ -171,7 +171,6 @@ $router->group(['middleware' => null], function () use ($router) {
         $router->get('{key}', 'ConfigController@show');
         $router->post('', 'ConfigController@store');
         $router->post('{key}', 'ConfigController@update');
-        $router->delete('{key}', 'ConfigController@destroy');
+        $router->delete('{id:[\d]+}', 'ConfigController@destroy');
     });
-
 });

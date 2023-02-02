@@ -18,6 +18,7 @@ class CreateConfigTable extends Migration
             $table->char('key', 120)->unique();
             $table->char('type', 10)->nullable();
             $table->text('value')->nullable();
+            $table->char('mark', 120)->nullable();
             $table->unsignedTinyInteger('group')->default(0)->index();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();

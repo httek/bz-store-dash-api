@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
+    use SerializeDate;
+
     /**
      * @var string[]
      */
