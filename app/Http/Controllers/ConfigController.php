@@ -39,8 +39,12 @@ class ConfigController extends Controller
      */
     public function store(Request $request)
     {
-        $new = $request->only(['key', 'value', 'group']);
-        $new['created_by'] = Auth::id() ?: null;
+        $this->validate($request, [
+            'type' => 'required|in:array,object,string,integer,bool,boolean',
+            'key' => 'required'
+        ]);
+        
+        $new = $request->only(['key', 'value', 'group', 'type']);
         $item = Config::create($new);
 
         return success($item);
