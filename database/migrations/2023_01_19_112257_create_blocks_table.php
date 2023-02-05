@@ -16,14 +16,13 @@ class CreateBlocksTable extends Migration
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
             $table->char('name', 120)->nullable();
-            $table->string('image', 400)->nullable();
-            $table->unsignedTinyInteger('status')->default(1);
-            $table->timestamp('visible_begin')->nullable();
-            $table->timestamp('visible_ending')->nullable();
-            $table->json('meta')->nullable();
+            $table->string('cover', 400)->nullable();
             $table->unsignedTinyInteger('position')->default(0);
             $table->integer('sequence')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedTinyInteger('status')->default(1);
+            $table->json('meta')->nullable();
+            $table->timestamp('deadline_at')->nullable();
             $table->timestamps();
         });
     }
