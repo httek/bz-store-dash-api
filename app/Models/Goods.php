@@ -25,10 +25,23 @@ class Goods extends Model
         'tags' => 'array',
     ];
 
+    protected $appends = ['tagItems'];
+
     /**
      * @var string[]
      */
     protected $hidden = ['deleted_at'];
+
+    /**
+     * @return array
+     */
+    public function getTagItemsAttribute()
+    {
+        $tags = $this->getAttributeValue('tags') ?: [];
+        if (! $tags) return [];
+
+        return Tag::whereIn('id', $tags)->get();
+    }
 
     /**
      * @return void
@@ -38,10 +51,7 @@ class Goods extends Model
         parent::boot();
         static::creating(fn(Goods $goods) => $goods->uuid = strtoupper(uniqid(date('y'))));
         static::updating(fn(Goods $goods) => !$goods->uuid && $goods->uuid = strtoupper(uniqid(date('y'))));
-
-
     }
-
 
     /**
      * @param $query

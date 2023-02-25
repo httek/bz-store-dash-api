@@ -19,7 +19,9 @@ class CreateTagsTable extends Migration
             $table->char('name')->nullable();
             $table->string('cover', 400)->nullable();
             $table->unsignedInteger('sequence')->nullable();
+            $table->unsignedTinyInteger('nav')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
